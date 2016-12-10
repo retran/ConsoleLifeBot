@@ -1,10 +1,21 @@
 package me.retran.consolelifebot;
 
-/**
- * Created by retran on 12/10/16.
- */
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
+
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello!");
+        Injector injector = Guice.createInjector(new DependencyRoot());
+        ApiContextInitializer.init();
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            telegramBotsApi.registerBot(injector.getInstance(CommandsHandler.class));
+        }
+        catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 }
