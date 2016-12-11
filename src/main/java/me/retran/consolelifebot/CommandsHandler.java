@@ -5,32 +5,34 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.logging.BotLogger;
 
 public class CommandsHandler extends TelegramLongPollingBot {
     public static final String LOGTAG = "COMMANDSHANDLER";
 
     private final Configuration configuration;
+    private final SentMessageCallback sentMessageCallback;
 
     @Inject
-    CommandsHandler(Configuration configuration) {
+    CommandsHandler(Configuration configuration, SentMessageCallback sentMessageCallback) {
         this.configuration = configuration;
+        this.sentMessageCallback = sentMessageCallback;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             String text = update.getMessage().getText();
-            if (text.toLowerCase().equalsIgnoreCase("/kokoko")) {
+            BotLogger.info(update.getMessage().getFrom().getUserName(), text);
+            if (text.equalsIgnoreCase("/kokoko")) {
                 SendMessage sendMessage = new SendMessage()
                         .setText("кококо")
                         .setChatId(update.getMessage().getChatId())
                         .setReplyToMessageId(update.getMessage().getMessageId());
                 try {
-                    sendMessage(sendMessage);
+                    sendMessageAsync(sendMessage, this.sentMessageCallback);
                 } catch (TelegramApiException e) {
-                    // TODO log
-
-                    e.printStackTrace();
+                    BotLogger.severe(LOGTAG, e);
                 }
             }
         }
