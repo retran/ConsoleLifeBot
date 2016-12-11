@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.me.retran.consoleliftbot.handlers;
+package me.retran.consolelifebot.handlers;
 
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;

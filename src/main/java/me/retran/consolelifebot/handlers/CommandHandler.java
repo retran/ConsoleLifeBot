@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.me.retran.consoleliftbot.handlers;
+package me.retran.consolelifebot.handlers;
 
 import me.retran.consolelifebot.common.Configuration;
 import org.telegram.telegrambots.api.objects.Message;

@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.me.retran.consoleliftbot.handlers;
+package me.retran.consolelifebot.handlers;
 
 import com.google.inject.Inject;
 import org.telegram.telegrambots.api.objects.Message;

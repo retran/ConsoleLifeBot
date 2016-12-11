@@ -1,8 +1,8 @@
 package me.retran.consolelifebot.common;
 
 import com.google.inject.Inject;
-import me.retran.consolelifebot.me.retran.consoleliftbot.handlers.Handler;
-import me.retran.consolelifebot.me.retran.consoleliftbot.handlers.HandlersRepository;
+import me.retran.consolelifebot.handlers.Handler;
+import me.retran.consolelifebot.handlers.HandlersRepository;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
