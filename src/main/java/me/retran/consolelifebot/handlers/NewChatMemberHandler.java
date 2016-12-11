@@ -31,6 +31,8 @@ public class NewChatMemberHandler extends Handler {
         BotLogger.info(Helpers.getDisplayName(message.getNewChatMember()), "enter");
         SendMessage sendMessage = new SendMessage()
                 .setChatId(message.getChatId())
+                .disableNotification()
+                .disableWebPagePreview()
                 .setReplyToMessageId(message.getMessageId())
                 .setText(welcome);
         try {

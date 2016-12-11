@@ -9,12 +9,12 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-public abstract class PredefinedTextCommandHandler extends CommandHandler {
+public abstract class PredefinedMessageCommandHandler extends CommandHandler {
     private final SentMessageCallback callback;
     protected String reply;
 
-    public PredefinedTextCommandHandler(Configuration configuration, SentMessageCallback callback,
-                                        String filename, String template, String description) {
+    public PredefinedMessageCommandHandler(Configuration configuration, SentMessageCallback callback,
+                                           String filename, String template, String description) {
         super(configuration, template, description);
         this.callback = callback;
         reply = Helpers.getPredefinedMessage(filename);
@@ -25,6 +25,8 @@ public abstract class PredefinedTextCommandHandler extends CommandHandler {
         BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
         SendMessage sendMessage = new SendMessage()
                 .setText(reply)
+                .disableNotification()
+                .disableWebPagePreview()
                 .setChatId(message.getChatId())
                 .setReplyToMessageId(message.getMessageId());
         try {
