@@ -1,33 +1,33 @@
-package me.retran.consolelifebot;
+package me.retran.consolelifebot.common;
 
 import com.google.inject.Inject;
+import me.retran.consolelifebot.me.retran.consoleliftbot.handlers.Handler;
+import me.retran.consolelifebot.me.retran.consoleliftbot.handlers.HandlersRepository;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.logging.BotLogger;
 
-public class CommandsHandler extends TelegramLongPollingBot {
+public class MessagesHandler extends TelegramLongPollingBot {
     public static final String LOGTAG = "COMMANDSHANDLER";
 
     private final Configuration configuration;
     private final SentMessageCallback sentMessageCallback;
-    private final CommandRepository commands;
+    private final HandlersRepository handlers;
 
     @Inject
-    CommandsHandler(Configuration configuration, CommandRepository commands, SentMessageCallback sentMessageCallback) {
+    MessagesHandler(Configuration configuration, HandlersRepository handlers, SentMessageCallback sentMessageCallback) {
         this.configuration = configuration;
         this.sentMessageCallback = sentMessageCallback;
-        this.commands = commands;
+        this.handlers = handlers;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
-            BotLogger.info(Helpers.getDisplayName(update.getMessage().getFrom()), update.getMessage().getText());
-            Command c = commands.getCommand(update.getMessage().getText());
+            Message message = update.getMessage();
+            Handler c = handlers.getHandler(message);
             if (c != null) {
-                c.Handle(this, update.getMessage());
-            } else {
-                BotLogger.warning(LOGTAG, "invalid command");
+                c.handle(this, message);
             }
         }
     }

@@ -2,6 +2,7 @@ package me.retran.consolelifebot;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import me.retran.consolelifebot.common.Configuration;
 import org.cfg4j.provider.ConfigurationProvider;
 import org.cfg4j.provider.ConfigurationProviderBuilder;
 import org.cfg4j.source.ConfigurationSource;

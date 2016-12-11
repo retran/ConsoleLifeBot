@@ -1,4 +1,4 @@
-package me.retran.consolelifebot;
+package me.retran.consolelifebot.common;
 
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;

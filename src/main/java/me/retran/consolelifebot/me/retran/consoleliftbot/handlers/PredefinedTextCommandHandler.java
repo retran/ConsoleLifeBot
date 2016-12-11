@@ -1,27 +1,27 @@
-package me.retran.consolelifebot;
+package me.retran.consolelifebot.me.retran.consoleliftbot.handlers;
 
+import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.SentMessageCallback;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import java.io.InputStream;
-import java.util.Scanner;
-import java.util.StringJoiner;
-
-public abstract class PredefinedTextCommand extends Command {
+public abstract class PredefinedTextCommandHandler extends CommandHandler {
     private final SentMessageCallback callback;
     protected String reply;
 
-    public PredefinedTextCommand(SentMessageCallback callback, String filename, String template, String description) {
-        super(template, description);
+    public PredefinedTextCommandHandler(Configuration configuration, SentMessageCallback callback, String filename, String template, String description) {
+        super(configuration, template, description);
         this.callback = callback;
         reply = Helpers.getPredefinedMessage(filename);
     }
 
     @Override
-    public void Handle(AbsSender sender, Message message) {
+    public void handle(AbsSender sender, Message message) {
+        BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
         SendMessage sendMessage = new SendMessage()
                 .setText(reply)
                 .setChatId(message.getChatId())
