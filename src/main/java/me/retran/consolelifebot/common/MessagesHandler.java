@@ -25,10 +25,7 @@ public class MessagesHandler extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             Message message = update.getMessage();
-            Handler c = handlers.getHandler(message);
-            if (c != null) {
-                c.handle(this, message);
-            }
+            handlers.getHandler(message).handle(this, message);
         }
     }
 
