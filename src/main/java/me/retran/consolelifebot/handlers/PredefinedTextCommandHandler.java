@@ -13,7 +13,8 @@ public abstract class PredefinedTextCommandHandler extends CommandHandler {
     private final SentMessageCallback callback;
     protected String reply;
 
-    public PredefinedTextCommandHandler(Configuration configuration, SentMessageCallback callback, String filename, String template, String description) {
+    public PredefinedTextCommandHandler(Configuration configuration, SentMessageCallback callback,
+                                        String filename, String template, String description) {
         super(configuration, template, description);
         this.callback = callback;
         reply = Helpers.getPredefinedMessage(filename);
