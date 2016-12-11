@@ -1,12 +1,13 @@
 package me.retran.consolelifebot.handlers;
 
-import com.fasterxml.jackson.jaxrs.json.annotation.JSONP;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.telegram.telegrambots.api.objects.Message;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Singleton
 public class HandlersRepository {
     private final DefaultHandler defaultHandler;
     private List<Handler> handlers;
@@ -16,11 +17,15 @@ public class HandlersRepository {
                               ListCommandHandler listCommandHandler,
                               AboutCommandHandler aboutCommandHandler,
                               NewChatMemberHandler newChatMemberHandler,
+                              RomCommandHandler romCommandHandler,
+                              GetRomCommandHandler getRomCommandHandler,
                               DefaultHandler defaultHandler) {
         handlers = Arrays.asList(rulesCommandHandler,
                 listCommandHandler,
                 aboutCommandHandler,
-                newChatMemberHandler);
+                newChatMemberHandler,
+                romCommandHandler,
+                getRomCommandHandler);
         this.defaultHandler = defaultHandler;
     }
 

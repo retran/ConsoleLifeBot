@@ -1,9 +1,12 @@
 package me.retran.consolelifebot.common;
 
+import com.google.inject.Singleton;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Singleton
 public class Configuration {
     private final String filename = "application.properties";
     private final String prefix = "consolelifebot.";
@@ -37,5 +40,9 @@ public class Configuration {
 
     public String youtubeApiKey() {
         return this.properties.getProperty(prefix + "youtubeApiKey");
+    }
+
+    public String library() {
+        return this.properties.getProperty(prefix + "library");
     }
 }

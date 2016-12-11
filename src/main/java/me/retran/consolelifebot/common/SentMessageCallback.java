@@ -1,11 +1,13 @@
 package me.retran.consolelifebot.common;
 
+import com.google.inject.Singleton;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
+@Singleton
 public class SentMessageCallback implements SentCallback<Message> {
     public static final String LOGTAG = "SENTMESSAGECALLBACK";
 
