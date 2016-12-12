@@ -6,7 +6,9 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class MessagesHandler extends TelegramLongPollingBot {
     public static final String LOGTAG = "COMMANDSHANDLER";
 

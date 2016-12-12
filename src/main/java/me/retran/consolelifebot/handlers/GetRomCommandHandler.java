@@ -1,6 +1,8 @@
 package me.retran.consolelifebot.handlers;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import me.retran.consolelifebot.common.Configuration;
 import me.retran.consolelifebot.common.SentMessageCallback;
 import me.retran.consolelifebot.library.Entry;
@@ -14,6 +16,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+@Singleton
 public class GetRomCommandHandler extends CommandHandler {
     private final SentMessageCallback callback;
     private final Library library;

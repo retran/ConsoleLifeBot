@@ -1,10 +1,12 @@
 package me.retran.consolelifebot.common;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Singleton
 public class Configuration {
     private final String filename = "application.properties";
     private final String prefix = "consolelifebot.";

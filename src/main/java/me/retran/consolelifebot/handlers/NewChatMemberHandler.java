@@ -1,6 +1,8 @@
 package me.retran.consolelifebot.handlers;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import me.retran.consolelifebot.common.Helpers;
 import me.retran.consolelifebot.common.SentMessageCallback;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -11,6 +13,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 
 import static me.retran.consolelifebot.common.MessagesHandler.LOGTAG;
 
+@Singleton
 public class NewChatMemberHandler extends Handler {
     private final SentMessageCallback callback;
     private String welcome;

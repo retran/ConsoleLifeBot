@@ -7,6 +7,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import java.util.Arrays;
 import java.util.List;
 
+@javax.inject.Singleton
 public class HandlersRepository {
     private final DefaultHandler defaultHandler;
     private List<Handler> handlers;

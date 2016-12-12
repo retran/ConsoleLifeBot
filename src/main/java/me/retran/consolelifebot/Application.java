@@ -10,16 +10,14 @@ import javax.inject.Singleton;
 
 @Singleton
 @Component(modules = ApplicationModule.class)
-interface App {
+interface Dependencies {
     MessagesHandler messagesHandler();
 }
 
 public class Application {
 
     public static void main(String[] args) {
-        App injector = DaggerApp.builder()
-                .applicationModule(new ApplicationModule())
-                .build();
+        Dependencies injector = DaggerDependencies.create();
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {

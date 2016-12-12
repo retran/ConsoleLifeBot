@@ -7,7 +7,9 @@ import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class SentMessageCallback implements SentCallback<Message> {
     public static final String LOGTAG = "SENTMESSAGECALLBACK";
 
