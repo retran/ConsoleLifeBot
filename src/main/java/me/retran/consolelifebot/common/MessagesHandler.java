@@ -1,13 +1,12 @@
 package me.retran.consolelifebot.common;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import me.retran.consolelifebot.handlers.HandlersRepository;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
-@Singleton
+import javax.inject.Inject;
+
 public class MessagesHandler extends TelegramLongPollingBot {
     public static final String LOGTAG = "COMMANDSHANDLER";
 

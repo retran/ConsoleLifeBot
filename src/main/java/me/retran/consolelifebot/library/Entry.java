@@ -2,9 +2,6 @@ package me.retran.consolelifebot.library;
 
 import java.io.File;
 
-/**
- * Created by retran on 12/12/16.
- */
 public class Entry {
     private static long count = 0;
     private long id;

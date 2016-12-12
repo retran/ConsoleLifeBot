@@ -1,18 +1,17 @@
 package me.retran.consolelifebot.common;
 
-import com.google.inject.Singleton;
-
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-@Singleton
 public class Configuration {
     private final String filename = "application.properties";
     private final String prefix = "consolelifebot.";
 
     private Properties properties;
 
+    @Inject
     public Configuration() {
         this.properties = new Properties();
         InputStream in = this.getClass().getClassLoader()

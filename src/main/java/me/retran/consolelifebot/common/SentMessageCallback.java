@@ -1,15 +1,20 @@
 package me.retran.consolelifebot.common;
 
-import com.google.inject.Singleton;
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
 
-@Singleton
+import javax.inject.Inject;
+
 public class SentMessageCallback implements SentCallback<Message> {
     public static final String LOGTAG = "SENTMESSAGECALLBACK";
+
+    @Inject
+    public  SentMessageCallback() {
+
+    }
 
     @Override
     public void onResult(BotApiMethod<Message> method, Message response) {

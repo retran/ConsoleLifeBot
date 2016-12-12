@@ -1,13 +1,11 @@
 package me.retran.consolelifebot.library;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
 import me.retran.consolelifebot.common.Configuration;
 
 import java.io.File;
 import java.util.ArrayList;
 
-@Singleton
 public class Library {
     private final ArrayList<Entry> entries;
     private final String path;

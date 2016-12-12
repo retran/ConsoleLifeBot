@@ -1,6 +1,6 @@
 package me.retran.consolelifebot.handlers;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import me.retran.consolelifebot.common.Helpers;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
