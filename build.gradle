@@ -4,6 +4,7 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'idea'
 
 group 'me.retran.consolelifebot'
 version '0.1.0'
