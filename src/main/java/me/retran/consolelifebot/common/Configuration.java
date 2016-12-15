@@ -46,4 +46,8 @@ public class Configuration {
     public String library() {
         return this.properties.getProperty(prefix + "library");
     }
+
+    public String channels() {
+        return this.properties.getProperty(prefix + "channels");
+    }
 }
