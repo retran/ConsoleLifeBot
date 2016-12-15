@@ -27,6 +27,7 @@ public abstract class PredefinedMessageCommandHandler extends CommandHandler {
                 .setText(reply)
                 .disableNotification()
                 .disableWebPagePreview()
+                .enableHtml(true)
                 .setChatId(message.getChatId())
                 .setReplyToMessageId(message.getMessageId());
         try {

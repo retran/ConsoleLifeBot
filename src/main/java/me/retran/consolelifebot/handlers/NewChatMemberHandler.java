@@ -36,6 +36,7 @@ public class NewChatMemberHandler extends Handler {
                 .setChatId(message.getChatId())
                 .disableNotification()
                 .disableWebPagePreview()
+                .enableHtml(true)
                 .setReplyToMessageId(message.getMessageId())
                 .setText(welcome);
         try {
