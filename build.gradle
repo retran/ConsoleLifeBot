@@ -1,5 +1,8 @@
+import java.util.concurrent.CopyOnWriteArrayList
+
 plugins {
     id "net.ltgt.apt" version "0.9"
+    id 'org.hidetake.ssh' version "2.7.0"
 }
 
 apply plugin: 'java'
@@ -34,6 +37,48 @@ jar {
         attributes 'Main-Class': 'me.retran.consolelifebot.Application'
     }
 }
+
+task copyJar(type: Copy) {
+    from 'build/libs'
+    from 'Dockerfile'
+    into 'package'
+}
+
+copyJar.dependsOn jar
+
+task tgz(type: Tar) {
+    from './package/'
+    baseName = 'package'
+    destinationDir = file('.')
+    extension = 'tgz'
+    compression = Compression.GZIP
+}
+
+tgz.dependsOn copyJar
+
+remotes {
+    bots {
+        host = '128.199.61.99'
+        user = 'root'
+        identity = file('/home/retran/.ssh/id_rsa')
+    }
+}
+
+task deploy << {
+    ssh.run {
+        session(remotes.bots) {
+            put from: "package-0.1.0.tgz", into: "/app"
+            execute 'tar -xvf /app/package-0.1.0.tgz -C /app'
+            execute 'docker build -t retran/consolelifebot:v0.1.0 /app/'
+            execute 'docker kill clb'
+            execute 'docker rm clb'
+            execute 'docker run -d --name clb retran/consolelifebot:v0.1.0'
+            execute 'docker images --no-trunc -aqf "dangling=true" | xargs docker rmi'
+        }
+    }
+}
+
+deploy.dependsOn tgz
 
 dependencies {
     apt 'com.google.dagger:dagger-compiler:2.8'
