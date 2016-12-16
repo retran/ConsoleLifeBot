@@ -14,7 +14,7 @@ public class SentMessageCallback implements SentCallback<Message> {
     public static final String LOGTAG = "SENTMESSAGECALLBACK";
 
     @Inject
-    public  SentMessageCallback() {
+    public SentMessageCallback() {
 
     }
 

@@ -8,6 +8,7 @@ public class Entry {
     private String filename;
     private String path;
     private String platform;
+
     public Entry(String path) {
         count++;
         File f = new File(path);

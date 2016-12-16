@@ -1,8 +1,5 @@
 package me.retran.consolelifebot.youtube;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -65,14 +62,8 @@ public class YouTubePoller extends Thread {
 
     private ArrayList<YouTubeEntry> getNewVideos(LocalDateTime after) {
         ArrayList<YouTubeEntry> results = new ArrayList<>();
-
-        HttpRequestInitializer initializer  = new HttpRequestInitializer() {
-            @Override
-            public void initialize(HttpRequest request) throws IOException {
-
-            }
+        HttpRequestInitializer initializer = request -> {
         };
-
         YouTube youTube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), initializer)
                 .setYouTubeRequestInitializer(
@@ -81,13 +72,12 @@ public class YouTubePoller extends Thread {
                 .build();
         try {
             YouTube.Channels.List channelsListRequest = youTube.channels().list("snippet, contentDetails")
-                .setId(configuration.channels());
+                    .setId(configuration.channels());
             ChannelListResponse channelListResponse = channelsListRequest.execute();
             Boolean full = false;
             for (Channel channel : channelListResponse.getItems()) {
                 Boolean finished = false;
                 String page = null;
-
                 while (!finished) {
                     YouTube.PlaylistItems.List playlistItemsRequest = youTube.playlistItems().list("snippet")
                             .setPlaylistId(channel.getContentDetails().getRelatedPlaylists().getUploads())
@@ -96,15 +86,12 @@ public class YouTubePoller extends Thread {
                         playlistItemsRequest.setPageToken(page);
                     }
                     PlaylistItemListResponse playlistItemListResponse = playlistItemsRequest.execute();
-
                     if (playlistItemListResponse.getNextPageToken() != null && full) {
                         page = playlistItemListResponse.getNextPageToken();
                     } else {
                         finished = true;
                     }
-
                     for (PlaylistItem item : playlistItemListResponse.getItems()) {
-                        // TODO разобраться с датавременем
                         LocalDateTime publishedAt = new Date(item.getSnippet().getPublishedAt().getValue())
                                 .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                         if (publishedAt.compareTo(after) >= 0) {
@@ -112,7 +99,7 @@ public class YouTubePoller extends Thread {
                                     item.getSnippet().getTitle(),
                                     channel.getSnippet().getTitle(),
                                     "https://www.youtube.com/watch?v=" + item.getSnippet().getResourceId().getVideoId()
-                                    ));
+                            ));
                         }
                     }
                     try {

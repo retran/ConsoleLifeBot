@@ -1,7 +1,5 @@
 package me.retran.consolelifebot.youtube;
 
-import java.time.LocalDateTime;
-
 public class YouTubeEntry {
     private String title;
     private String channelTitle;

@@ -1,8 +1,5 @@
 package me.retran.consolelifebot.handlers;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import me.retran.consolelifebot.common.Configuration;
 import me.retran.consolelifebot.common.SentMessageCallback;
 import me.retran.consolelifebot.library.Entry;
@@ -12,6 +9,9 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class RomCommandHandler extends CommandHandler {

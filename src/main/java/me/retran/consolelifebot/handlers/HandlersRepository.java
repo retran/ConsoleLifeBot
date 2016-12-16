@@ -1,9 +1,8 @@
 package me.retran.consolelifebot.handlers;
 
-import javax.inject.Inject;
-import com.google.inject.Singleton;
 import org.telegram.telegrambots.api.objects.Message;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
