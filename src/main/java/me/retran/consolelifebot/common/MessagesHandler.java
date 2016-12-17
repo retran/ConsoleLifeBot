@@ -13,14 +13,12 @@ public class MessagesHandler extends TelegramLongPollingBot {
     public static final String LOGTAG = "COMMANDSHANDLER";
 
     private final Configuration configuration;
-    private final SentMessageCallback sentMessageCallback;
-    private final HandlersRepository handlers;
+	private final HandlersRepository handlers;
 
-    @Inject
-    MessagesHandler(Configuration configuration, HandlersRepository handlers, SentMessageCallback sentMessageCallback) {
-        this.configuration = configuration;
-        this.sentMessageCallback = sentMessageCallback;
-        this.handlers = handlers;
+	@Inject
+	MessagesHandler(Configuration configuration, HandlersRepository handlers) {
+		this.configuration = configuration;
+		this.handlers = handlers;
     }
 
     @Override

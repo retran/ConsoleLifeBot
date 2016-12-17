@@ -17,13 +17,11 @@ import java.io.FileNotFoundException;
 
 @Singleton
 public class GetRomCommandHandler extends CommandHandler {
-    private final SentMessageCallback callback;
     private final Library library;
 
     @Inject
-    public GetRomCommandHandler(Library library, Configuration configuration, SentMessageCallback callback) {
+    public GetRomCommandHandler(Library library, Configuration configuration) {
         super(configuration, "/r", "");
-        this.callback = callback;
         this.library = library;
     }
 

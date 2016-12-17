@@ -65,11 +65,11 @@ public class YouTubePoller extends Thread {
         HttpRequestInitializer initializer = request -> {
         };
         YouTube youTube = new YouTube.Builder(new NetHttpTransport(),
-                new JacksonFactory(), initializer)
-                .setYouTubeRequestInitializer(
-                        new YouTubeRequestInitializer(configuration.youtubeApiKey()))
-                .setApplicationName("Console Life Bot")
-                .build();
+                                              new JacksonFactory(), initializer)
+            .setYouTubeRequestInitializer(
+                                          new YouTubeRequestInitializer(configuration.youtubeApiKey()))
+            .setApplicationName("Console Life Bot")
+            .build();
         try {
             YouTube.Channels.List channelsListRequest = youTube.channels().list("snippet, contentDetails")
                     .setId(configuration.channels());

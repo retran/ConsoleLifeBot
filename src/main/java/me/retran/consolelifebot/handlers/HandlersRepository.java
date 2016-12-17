@@ -3,10 +3,12 @@ package me.retran.consolelifebot.handlers;
 import org.telegram.telegrambots.api.objects.Message;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import java.util.Arrays;
 import java.util.List;
 
-@javax.inject.Singleton
+@Singleton
 public class HandlersRepository {
     private final DefaultHandler defaultHandler;
     private List<Handler> handlers;
