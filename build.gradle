@@ -80,6 +80,7 @@ deploy.dependsOn tgz
 
 dependencies {
     apt 'com.google.dagger:dagger-compiler:2.8'
+    compile "com.mashape.unirest:unirest-java:1.4.9"
     compile 'com.google.dagger:dagger:2.8'
     compile group: 'org.telegram', name: 'telegrambots', version: '2.4.4'
     compile 'com.google.api-client:google-api-client:1.22.0'

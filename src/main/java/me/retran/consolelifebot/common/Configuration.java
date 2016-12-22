@@ -43,6 +43,10 @@ public class Configuration {
         return this.properties.getProperty(prefix + "youtubeApiKey");
     }
 
+    public String giantbombApiKey() {
+        return this.properties.getProperty(prefix + "giantbombApiKey");
+    }
+
     public String library() {
         return this.properties.getProperty(prefix + "library");
     }
