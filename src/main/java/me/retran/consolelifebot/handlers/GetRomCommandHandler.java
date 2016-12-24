@@ -1,7 +1,6 @@
 package me.retran.consolelifebot.handlers;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.SentMessageCallback;
 import me.retran.consolelifebot.library.Entry;
 import me.retran.consolelifebot.library.Library;
 import org.telegram.telegrambots.api.methods.send.SendDocument;
