@@ -1,6 +1,7 @@
 FROM openjdk:8-jre
 RUN mkdir /app \
     mkdir /roms
-COPY ./*.jar /app
-WORKDIR /data
-CMD ["java", "-jar", "/app/consolelifebot-0.1.0.jar"]
+COPY bin /app/bin
+COPY lib /app/lib
+WORKDIR /app
+CMD ["/app/bin/consolelifebot"]
