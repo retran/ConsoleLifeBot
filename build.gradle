@@ -43,7 +43,7 @@ remotes {
         host = '128.199.61.99'
         user = 'root'
         identity = file('/home/retran/.ssh/id_rsa')
-        passphrase = ''
+        agent = true
     }
 }
 
