@@ -1,11 +1,10 @@
 plugins {
     id "net.ltgt.apt" version "0.9"
     id 'org.hidetake.ssh' version "2.7.0"
+    id 'java'
+    id 'application'
+    id 'eclipse'
 }
-
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'eclipse'
 
 group 'me.retran.consolelifebot'
 version '0.1.0'
@@ -50,9 +49,11 @@ remotes {
 task deploy << {
     ssh.run {
         session(remotes.bots) {
+            execute 'rm -rf /app', ignoreError: true
+            execute 'mkdir /app'
             put from: "./build/distributions/consolelifebot-0.1.0.tar", into: "/app"
             execute 'tar -xvf /app/consolelifebot-0.1.0.tar -C /app'
-            execute 'docker build -t retran/consolelifebot:v0.1.0 /app/'
+            execute 'docker build -t retran/consolelifebot:v0.1.0 /app/consolelifebot-0.1.0'
             execute 'docker kill clb', ignoreError: true
             execute 'docker rm clb', ignoreError: true
             execute 'docker run -d --name clb retran/consolelifebot:v0.1.0'
