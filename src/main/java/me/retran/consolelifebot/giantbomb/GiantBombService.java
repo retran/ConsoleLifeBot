@@ -1,35 +1,49 @@
 package me.retran.consolelifebot.giantbomb;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 import me.retran.consolelifebot.common.Configuration;
 
 @Singleton
 public class GiantBombService {
     private Configuration configuration;
-    private final String baseUri = "http://www.giantbomb.com/api";
+    private HttpUrl baseUri;
+    private OkHttpClient client;
 
     @Inject
     public GiantBombService(Configuration configuration) {
         this.configuration = configuration;
+        this.client = new OkHttpClient();
+        this.baseUri = HttpUrl.parse("http://www.giantbomb.com/api/");
     }
 
     public GameEntry getGame(int id) {
+        HttpUrl url = this.baseUri.newBuilder()
+            .addPathSegment("game")
+            .addPathSegment(Integer.toString(id))
+            .addQueryParameter("api_key", this.configuration.giantbombApiKey())
+            .addQueryParameter("format", "json")
+            .build();
+
+        Request request = new Request.Builder()
+            .url(url)
+            .build();
+
         try {
-            HttpResponse<JsonNode> response = Unirest
-                .get(baseUri + "/game/" + Integer.toString(id))
-                .queryString("api_key", this.configuration.giantbombApiKey())
-                .queryString("format", "json")
-                .asJson();
+            Response response = client.newCall(request).execute();
+
             return null;
         }
-        catch (UnirestException e) {
+        catch (IOException e) {
             return null;
         }
     }
