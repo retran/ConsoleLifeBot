@@ -1,11 +1,11 @@
 package me.retran.consolelifebot.common;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class Configuration {
