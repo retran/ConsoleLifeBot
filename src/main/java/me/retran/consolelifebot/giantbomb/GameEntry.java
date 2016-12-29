@@ -6,9 +6,9 @@ import java.util.Random;
 
 public class GameEntry {
     String name;
-    GameImage[] images;
+    ImageEntry[] images;
 
-    public List<GameImage> images() {
+    public List<ImageEntry> images() {
         return Arrays.asList(this.images);
     }
 
@@ -17,16 +17,14 @@ public class GameEntry {
     }
 
     public Boolean hasScreenshots() {
-        //    return true;
          return images().stream().anyMatch(i -> i.tags().contains("screenshot"));
     }
 
     public String randomScreenshot() {
-        GameImage[] screenshots =
-            //this.images;
+        ImageEntry[] screenshots =
             images().stream()
             .filter(i -> i.tags().contains("screenshot"))
-            .toArray(GameImage[]::new);
+            .toArray(ImageEntry[]::new);
         Random rnd = new Random();
         return screenshots[rnd.nextInt(screenshots.length)].url();
     }
