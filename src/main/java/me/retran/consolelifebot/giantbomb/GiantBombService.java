@@ -41,13 +41,13 @@ public class GiantBombService {
         return response.body().byteStream();
     }
 
-    public int getGameCountForPlatform(int id) throws IOException {
+    public int getGameCountForPlatform(String id) throws IOException {
         HttpUrl url = this.baseUri.newBuilder()
             .addPathSegment("games")
             .addQueryParameter("api_key", this.configuration.giantbombApiKey())
             .addQueryParameter("format", "json")
             .addQueryParameter("limit", "1")
-            .addQueryParameter("platforms", Integer.toString(id))
+            .addQueryParameter("platforms", id)
             .addQueryParameter("fieldList", "id")
             .build();
         Request request = new Request.Builder()
@@ -63,7 +63,7 @@ public class GiantBombService {
     }
 
     public GameEntry getRandomGame() throws IOException {
-        int platform = 146;
+        String platform = "146";
         int count = getGameCountForPlatform(platform);
         Random rnd = new Random();
         int offset = rnd.nextInt(count);
@@ -73,7 +73,7 @@ public class GiantBombService {
             .addQueryParameter("format", "json")
             .addQueryParameter("limit", "1")
             .addQueryParameter("offset", Integer.toString(offset))
-            .addQueryParameter("platforms", Integer.toString(platform))
+            .addQueryParameter("platforms", platform)
             .addQueryParameter("field_list", "id")
             .build();
         Request request = new Request.Builder()

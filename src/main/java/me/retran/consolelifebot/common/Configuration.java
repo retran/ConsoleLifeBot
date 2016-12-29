@@ -2,6 +2,7 @@ package me.retran.consolelifebot.common;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -16,42 +17,48 @@ public class Configuration {
     @Inject
     public Configuration() {
         this.properties = new Properties();
-        InputStream in = this.getClass().getClassLoader()
-                .getResourceAsStream(filename);
         try {
-            this.properties.load(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+            InputStream in = this.getClass().getClassLoader()
+                .getResourceAsStream(filename);
             try {
+                this.properties.load(in);
+            } finally {
                 in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Can't load application properties.", e);
         }
     }
 
+    private String getProperty(String property) {
+        return this.properties.getProperty(prefix + property); 
+    }
+
     public String telegramToken() {
-        return this.properties.getProperty(prefix + "telegramToken");
+        return getProperty("telegramToken");
     }
 
     public String telegramUserName() {
-        return this.properties.getProperty(prefix + "telegramUserName");
+        return getProperty("telegramUserName");
     }
 
     public String youtubeApiKey() {
-        return this.properties.getProperty(prefix + "youtubeApiKey");
+        return getProperty("youtubeApiKey");
     }
 
     public String giantbombApiKey() {
-        return this.properties.getProperty(prefix + "giantbombApiKey");
+        return getProperty("giantbombApiKey");
+    }
+
+    public String[] giantbombPlatforms() {
+        return getProperty("giantbombPlatforms").split(",");
     }
 
     public String library() {
-        return this.properties.getProperty(prefix + "library");
+        return getProperty("library");
     }
 
     public String channels() {
-        return this.properties.getProperty(prefix + "channels");
+        return getProperty("channels");
     }
 }
