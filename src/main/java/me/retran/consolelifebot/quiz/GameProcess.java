@@ -64,18 +64,18 @@ public class GameProcess extends Thread {
 			Answer best = state.getBestAnswer();
 			try {
 				sendMessage(
-						String.format("Раунд закончен. Правильный ответ - <a href=\"%s\">%s</a>.", state.getGame().detailUrl(), state.getGame().name()));
+						String.format("Время закончилось. Все было просто, игра называется - <a href=\"%s\">%s</a>.", state.getGame().detailUrl(), state.getGame().name()));
 				if (best == null) {
-					sendMessage("Не принято ни одного ответа :(");
+					sendMessage("Никто не хочет со мной играть :( Игра остановлена. Чтобы запустить ее снова - напишите /startgame");
 					state.setStatus(GameState.Idle);	
 				} else {
 					if (state.getGame().name().length() > 3 && best.getEstimate() >= state.getGame().name().length() - 3) {
 						sendMessage(
-								String.format("Правильный ответ не дал никто.", best.getAnswer(), best.getUser()));						
+								String.format("Ну что ж так, ни одного правильного ответа ;(", best.getAnswer(), best.getUser()));						
 					} else {
 						state.incrementScore(best.getUser());
 						sendMessage(
-								String.format("Лучший ответ - <b>%s (@%s)</b>.", best.getAnswer(), best.getUser()));
+								String.format("Лучший ответ - <b>%s (@%s)</b>. Молодец!", best.getAnswer(), best.getUser()));
 					}
 					state.setStatus(GameState.Playing);	
 				}
@@ -92,7 +92,7 @@ public class GameProcess extends Thread {
                 .disableWebPagePreview()
                 .enableHtml(true)
                 .enableNotification()
-                .setChatId("@clbottest");
+                .setChatId("@consolelife");
         client.sendMessage(sendMessage);
 	}
 
@@ -110,7 +110,7 @@ public class GameProcess extends Thread {
 
 			sendScreenshot(game.randomScreenshot());
             BotLogger.info("makeQuestion", "send message");	
-			sendMessage("Что это за игра? У вас одна минута на ответ.\n(отвечайте сообщениями типа \"!названиеигры\")");
+			sendMessage("Ну что? Сможете угадать игру по скриншоту? У вас одна минута на ответ.\n(отвечайте сообщениями типа \"!названиеигры\")");
 			state.setStatus(GameState.AwaitingAnswers);
 		} catch (IOException | TelegramApiException e) {
 			// TODO Auto-generated catch block

@@ -120,7 +120,7 @@ public class GameState {
 		StringBuilder sb = new StringBuilder();
 		int i = 1;
 		for (ScoreEntry entry : scores.entrySet().stream()
-			.sorted(Map.Entry.<String, Integer>comparingByValue())
+			.sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
 			.map(e -> new ScoreEntry(e.getKey(), e.getValue()))
 			.collect(Collectors.toList())) {
 			sb.append(String.format("%d. @%s - %d\n", i, entry.getName(), entry.getScore()));

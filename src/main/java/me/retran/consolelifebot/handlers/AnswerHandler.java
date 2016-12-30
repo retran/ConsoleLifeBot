@@ -38,7 +38,7 @@ public class AnswerHandler extends Handler {
         BotLogger.info(user, answer);
         String reply = null;
 		if (state.hasAnswer(answer)) {
-			reply = "Такой ответ уже принят.";
+			reply = "Такой ответ уже был, попробуй другой.";
 		}
 		else if (state.userAnswered(user)) {
 			reply = "Ты уже отвечал :(";
