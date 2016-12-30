@@ -61,4 +61,8 @@ public class Configuration {
     public String channels() {
         return getProperty("channels");
     }
+    
+    public String topFilename() {
+        return getProperty("topfilename");
+    }
 }

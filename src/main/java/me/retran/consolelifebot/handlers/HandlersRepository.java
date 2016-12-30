@@ -20,13 +20,19 @@ public class HandlersRepository {
                               NewChatMemberHandler newChatMemberHandler,
                               RomCommandHandler romCommandHandler,
                               GetRomCommandHandler getRomCommandHandler,
+                              StartGameCommandHandler startGameCommandHandler,
+                              AnswerHandler answerHandler,
+                              TopCommandHandler topCommandHandler,
                               DefaultHandler defaultHandler) {
         handlers = Arrays.asList(rulesCommandHandler,
                                  listCommandHandler,
                                  aboutCommandHandler,
                                  newChatMemberHandler,
                                  romCommandHandler,
-                                 getRomCommandHandler);
+                                 getRomCommandHandler,
+                                 startGameCommandHandler,
+                                 answerHandler,
+                                 topCommandHandler);
         this.defaultHandler = defaultHandler;
     }
 

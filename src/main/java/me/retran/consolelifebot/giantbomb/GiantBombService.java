@@ -9,12 +9,14 @@ import java.util.Random;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.telegram.telegrambots.logging.BotLogger;
+
 import com.google.inject.util.Types;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
 import me.retran.consolelifebot.common.Configuration;
-
+import me.retran.consolelifebot.common.Helpers;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -68,9 +70,9 @@ public class GiantBombService {
                 .build();
             Response response = client.newCall(request).execute();
             Moshi moshi = new Moshi.Builder().build();
-            JsonAdapter<GiantBombResponse<GameListEntry>> jsonAdapter
-                = moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameEntry.class));
-            GiantBombResponse<GameListEntry> result = null;
+            JsonAdapter<GiantBombResponse<GameListEntry[]>> jsonAdapter
+                = moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameListEntry[].class));
+            GiantBombResponse<GameListEntry[]> result = null;
             result = jsonAdapter.fromJson(response.body().string());
             synchronized (countsLock) {
                 counts.put(id, result.total());
@@ -86,8 +88,10 @@ public class GiantBombService {
         int count = 0;
         int offset = 0;
         synchronized (randomLock) {
+            BotLogger.info("randomGame", Integer.toString(platforms.length));	
             platform = platforms[random.nextInt(platforms.length)];
             count = getGameCountForPlatform(platform);
+            BotLogger.info("randomGame", Integer.toString(count));	            
             offset = random.nextInt(count);
         }
         HttpUrl url = this.baseUri.newBuilder()
@@ -102,13 +106,13 @@ public class GiantBombService {
         Request request = new Request.Builder()
             .url(url)
             .build();
-        GiantBombResponse<GameListEntry> result = null;
+        GiantBombResponse<GameListEntry[]> result = null;
         Response response = client.newCall(request).execute();
         Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<GiantBombResponse<GameListEntry>> jsonAdapter 
-        	= moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameEntry.class));
+        JsonAdapter<GiantBombResponse<GameListEntry[]>> jsonAdapter 
+        	= moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameListEntry[].class));
         result = jsonAdapter.fromJson(response.body().string());
-        return getGame(result.results().id());
+        return getGame(result.results()[0].id());
     }
 
     private GameEntry getGame(int id) throws IOException {
@@ -117,7 +121,7 @@ public class GiantBombService {
             .addPathSegment(Integer.toString(id))
             .addQueryParameter("api_key", this.configuration.giantbombApiKey())
             .addQueryParameter("format", "json")
-            .addQueryParameter("field_list", "id,name,images")
+            .addQueryParameter("field_list", "id,name,site_detail_url,images")
             .build();
         Request request = new Request.Builder()
             .url(url)

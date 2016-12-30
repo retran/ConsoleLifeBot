@@ -6,7 +6,7 @@ public class ImageEntry {
 	
 	
 	public String tags() {
-		return tags;
+		return tags.toLowerCase();
 	}
 	
 	public String url() {

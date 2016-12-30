@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.telegram.telegrambots.logging.BotLogger;
+
 public class GameEntry {
     String name;
+    String site_detail_url;
     ImageEntry[] images;
 
     public List<ImageEntry> images() {
@@ -15,8 +18,14 @@ public class GameEntry {
     public String name() {
         return this.name;
     }
+    
+    public String detailUrl() {
+    	return site_detail_url;
+    }
 
     public Boolean hasScreenshots() {
+    		BotLogger.info("hasScreenshots", Integer.toString(images.length));	
+
          return images().stream().anyMatch(i -> i.tags().contains("screenshot"));
     }
 
