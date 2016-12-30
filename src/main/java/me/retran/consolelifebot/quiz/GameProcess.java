@@ -121,7 +121,7 @@ public class GameProcess extends Thread {
 	private void sendScreenshot(String url) throws IOException, TelegramApiException {
 		InputStream inputStream = giantbombService.getFile(url);
 		SendPhoto sendPhoto = new SendPhoto()
-				.setChatId("@clbottest")
+				.setChatId("@consolelife")
 				.setNewPhoto("photo.jpg", inputStream);
 		client.sendPhoto(sendPhoto);
 	}
