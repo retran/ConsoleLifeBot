@@ -38,7 +38,7 @@ public class Library {
 
     public Entry[] search(String pattern) {
         final String p = pattern.toLowerCase().trim();
-        return entries.stream().filter(e -> e.getFilename().contains(p)).toArray(size -> new Entry[size]);
+        return entries.stream().filter(e -> e.getFilename().toLowerCase().contains(p)).toArray(size -> new Entry[size]);
     }
 
     public Entry getEntry(long id) {

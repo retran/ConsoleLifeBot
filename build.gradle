@@ -60,7 +60,7 @@ task deploy << {
             execute 'docker build -t retran/consolelifebot:v0.1.0 /app/consolelifebot-0.1.0'
             execute 'docker kill clb', ignoreError: true
             execute 'docker rm clb', ignoreError: true
-            execute 'docker run -v /bottop:/top -d --name clb retran/consolelifebot:v0.1.0'
+            execute 'docker run -v /bottop:/top -v /roms:/roms -d --name clb retran/consolelifebot:v0.1.0'
             execute 'docker images --no-trunc -aqf "dangling=true" | xargs docker rmi', ignoreError: true
         }
     }

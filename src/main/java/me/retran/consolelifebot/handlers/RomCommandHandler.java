@@ -27,14 +27,16 @@ public class RomCommandHandler extends CommandHandler {
 
     @Override
     public void handle(AbsSender sender, Message message) {
-        String[] args = message.getText().trim().split(" ");
+        String arg = message.getText().trim()
+            .replace("@slonikdendy_bot", "")
+            .replace("/rom", "").trim();
         SendMessage sendMessage = new SendMessage()
                 .setChatId(message.getChatId())
                 .setReplyToMessageId(message.getMessageId());
-        if (args.length < 2) {
+        if (arg == "") {
             sendMessage.setText("Укажи строку для поиска после команды.");
         } else {
-            Entry[] entries = library.search(args[1]);
+            Entry[] entries = library.search(arg);
             if (entries.length == 0) {
                 sendMessage.setText("Ничего не найдено :(");
             } else {
