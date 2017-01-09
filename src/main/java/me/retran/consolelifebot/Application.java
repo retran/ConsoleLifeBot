@@ -14,7 +14,6 @@ import javax.inject.Singleton;
 @Component(modules = ApplicationModule.class)
 interface Dependencies {
     MessagesHandler messagesHandler();
-
     YouTubePoller youTubePoller();
     GameProcess gameProcess();
 }

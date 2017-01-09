@@ -3,16 +3,21 @@ package me.retran.consolelifebot.library;
 import java.io.File;
 
 public class Entry {
-    private static long count = 0;
+    private static volatile long count = 0;
+    
     private long id;
     private String filename;
     private String path;
     private String platform;
 
-    public Entry(String path) {
+    private static long getNewId() {
         count++;
+        return count;
+    }
+    
+    public Entry(String path) {        
         File f = new File(path);
-        this.id = count;
+        this.id = getNewId();
         this.path = f.getAbsolutePath();
         this.filename = f.getName();
         this.platform = f.getParentFile().getName();

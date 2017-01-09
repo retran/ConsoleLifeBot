@@ -33,7 +33,7 @@ public class RomCommandHandler extends CommandHandler {
         SendMessage sendMessage = new SendMessage()
                 .setChatId(message.getChatId())
                 .setReplyToMessageId(message.getMessageId());
-        if (arg == "") {
+        if (arg.isEmpty()) {
             sendMessage.setText("Укажи строку для поиска после команды.");
         } else {
             Entry[] entries = library.search(arg);
@@ -42,7 +42,7 @@ public class RomCommandHandler extends CommandHandler {
             } else {
                 StringBuilder sb = new StringBuilder();
                 for (Entry e : entries) {
-                    sb.append(String.format("%s %s (/r%d)\n", e.getPlatform(), e.getFilename(), e.getId()));
+                    sb.append(String.format("%s %s (/r%d)%n", e.getPlatform(), e.getFilename(), e.getId()));
                 }
                 sendMessage.setText(sb.toString());
             }

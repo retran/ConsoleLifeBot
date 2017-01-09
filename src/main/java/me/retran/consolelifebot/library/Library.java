@@ -27,11 +27,14 @@ public class Library {
 
     private void indexDir(String path) {
         File dir = new File(path);
-        for (File file : dir.listFiles()) {
-            if (file.isDirectory()) {
-                indexDir(file.getPath());
-            } else {
-                entries.add(new Entry(file.getAbsolutePath()));
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    indexDir(file.getPath());
+                } else {
+                    entries.add(new Entry(file.getAbsolutePath()));
+                }
             }
         }
     }

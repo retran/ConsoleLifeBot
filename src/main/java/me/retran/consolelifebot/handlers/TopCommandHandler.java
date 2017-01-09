@@ -30,7 +30,7 @@ public class TopCommandHandler extends CommandHandler {
 	public void handle(AbsSender sender, Message message) {
         BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
 		String text = state.getScores();
-		if (text != null && !text.isEmpty()) {
+		if (!text.isEmpty()) {
 	        SendMessage sendMessage = new SendMessage()
 	                .setText(text)
 	                .disableNotification()

@@ -15,17 +15,18 @@ public class Helpers {
     }
 
     public static String getPredefinedMessage(String filename) {
-        String result = "";
+        StringBuilder sb = new StringBuilder();
+        boolean firstLine = true;
         InputStream in = Helpers.class.getClassLoader()
                 .getResourceAsStream(filename);
-        Scanner scanner = new Scanner(in);
+        Scanner scanner = new Scanner(in, "utf-8");
         while (scanner.hasNextLine()) {
-            if (!result.isEmpty()) {
-                result += "\n";
+            if (!firstLine) {
+                sb.append("\n");
             }
-            result += scanner.nextLine();
+            sb.append(scanner.nextLine());
         }
         scanner.close();
-        return result;
+        return sb.toString();
     }
 }

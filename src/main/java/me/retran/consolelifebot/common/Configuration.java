@@ -9,8 +9,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class Configuration {
-    private final String filename = "application.properties";
-    private final String prefix = "consolelifebot.";
+    private static final String filename = "application.properties";
+    private static final String prefix = "consolelifebot.";
 
     private Properties properties;
 
