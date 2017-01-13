@@ -18,22 +18,19 @@ public class GameEntry {
     public String name() {
         return this.name;
     }
-    
+
     public String detailUrl() {
-    	return site_detail_url;
+        return site_detail_url;
     }
 
     public Boolean hasScreenshots() {
-    		BotLogger.info("hasScreenshots", Integer.toString(images.length));	
-
-         return images().stream().anyMatch(i -> i.tags().contains("screenshot"));
+        BotLogger.info("hasScreenshots", Integer.toString(images.length));
+        return images().stream().anyMatch(i -> i.tags().contains("screenshot"));
     }
 
     public String randomScreenshot() {
-        ImageEntry[] screenshots =
-            images().stream()
-            .filter(i -> i.tags().contains("screenshot"))
-            .toArray(ImageEntry[]::new);
+        ImageEntry[] screenshots = images().stream().filter(i -> i.tags().contains("screenshot"))
+                .toArray(ImageEntry[]::new);
         Random rnd = new Random();
         return screenshots[rnd.nextInt(screenshots.length)].url();
     }

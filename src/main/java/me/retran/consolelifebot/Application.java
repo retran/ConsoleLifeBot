@@ -1,9 +1,11 @@
 package me.retran.consolelifebot;
 
 import dagger.Component;
+
 import me.retran.consolelifebot.common.MessagesHandler;
 import me.retran.consolelifebot.quiz.GameProcess;
 import me.retran.consolelifebot.youtube.YouTubePoller;
+
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;

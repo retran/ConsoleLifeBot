@@ -67,14 +67,15 @@ public class GameProcess extends Thread {
           sendMessage("Никто не хочет со мной играть :( Игра остановлена. Чтобы запустить ее снова - напишите /startgame");
           state.setStatus(GameState.Idle);
         } else {
-          if (state.getGame().name().length() > 3 && best.getEstimate() >= state.getGame().name().length() - 3) {
-              sendMessage("Ну что ж так, ни одного правильного ответа ;(");
-          } else {
-            state.incrementScore(best.getUser());
-            sendMessage(
-                String.format("Лучший ответ - <b>%s (@%s)</b>. Молодец!", best.getAnswer(), best.getUser()));
-          }
-          state.setStatus(GameState.Playing);
+            if (best.getEstimate() == 10000) {
+            //      if (state.getGame().name().length() > 3 && best.getEstimate() >= state.getGame().name().length() - 3) {
+                sendMessage("Ну что ж так, ни одного правильного ответа ;(");
+            } else {
+                state.incrementScore(best.getUser());
+                sendMessage(
+                            String.format("Лучший ответ - <b>%s (@%s)</b>. Молодец!", best.getAnswer(), best.getUser()));
+            }
+            state.setStatus(GameState.Playing);
         }
       } catch (TelegramApiException e) {
         // TODO Auto-generated catch block

@@ -52,6 +52,7 @@ public class GiantBombService {
 
     private int getGameCountForPlatform(String id) throws IOException {
         boolean hasCount = false;
+        System.out.println(id);
         synchronized (countsLock) {
             hasCount = counts.containsKey(id);
         }
@@ -74,6 +75,7 @@ public class GiantBombService {
             GiantBombResponse<GameListEntry[]> result = null;
             result = jsonAdapter.fromJson(response.body().string());
             synchronized (countsLock) {
+                System.out.println(String.format("platform count: %d", result.total()));
                 counts.put(id, result.total());
             }
         }
@@ -89,7 +91,9 @@ public class GiantBombService {
         synchronized (randomLock) {
             BotLogger.info("randomGame", Integer.toString(platforms.length));	
             platform = platforms[random.nextInt(platforms.length)];
+            System.out.println("Platform: " + platform);
             count = getGameCountForPlatform(platform);
+            System.out.println(count);
             BotLogger.info("randomGame", Integer.toString(count));	            
             offset = random.nextInt(count);
         }

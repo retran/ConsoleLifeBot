@@ -103,7 +103,33 @@ public class GameState {
     }
 
     public void addAnswer(String user, String answer) {
-        answers.add(new Answer(user, answer, Levenstein.distance(game.name().toLowerCase(), answer.toLowerCase())));
+        int baseEstimate = Levenstein.distance(game.name().toLowerCase(), answer.toLowerCase());
+
+        System.out.println(game.name() + " " + answer);
+        System.out.println(baseEstimate);
+        
+        String[] words = game.name().split(" ");
+        String[] answerWords = answer.split(" ");
+        boolean flag = false;
+        for (int j = 0; j < answerWords.length; j++) {
+            for (int i = 0; i < words.length; i++) {
+                int est = Levenstein.distance(answerWords[j].toLowerCase(), words[i].toLowerCase()); 
+                System.out.println(words[i] + " " + answerWords[j]);
+                System.out.println(words[i].length() / 2);
+                System.out.println(est);
+                
+                if (est <= words[i].length() / 2) {
+                    System.out.println("right");
+                    flag = true;
+                }
+            }
+        }
+
+        if (!flag) {
+            baseEstimate = 10000;
+        }
+
+        answers.add(new Answer(user, answer, baseEstimate));
     }
 
     public void clearAnswers() {
