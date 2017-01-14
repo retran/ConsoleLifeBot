@@ -9,7 +9,6 @@ import org.telegram.telegrambots.logging.BotLogger;
 public class GameEntry {
     String name = "";
     String site_detail_url = "";
-    int number_of_user_reviews = 0;
     ImageEntry[] images = new ImageEntry[0];
 
     public List<ImageEntry> images() {

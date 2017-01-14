@@ -1,39 +1,36 @@
 package me.retran.consolelifebot;
 
-import javax.inject.Singleton;
-
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import dagger.Component;
-import me.retran.consolelifebot.common.MessagesHandler;
+import me.retran.consolelifebot.common.Configuration;
 import me.retran.consolelifebot.quiz.GameProcess;
 import me.retran.consolelifebot.youtube.YouTubePoller;
-
-@Singleton
-@Component(modules = ApplicationModule.class)
-interface Dependencies {
-    MessagesHandler messagesHandler();
-
-    YouTubePoller youTubePoller();
-
-    GameProcess gameProcess();
-}
 
 public class Application {
     public static void main(String[] args) {
         Dependencies injector = DaggerDependencies.create();
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            YouTubePoller poller = injector.youTubePoller();
-            poller.start();
-            GameProcess process = injector.gameProcess();
-            process.start();
-            telegramBotsApi.registerBot(injector.messagesHandler());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
+        Configuration configuration = injector.configuration();
+
+        if (!configuration.telegramToken().isEmpty()) {
+            try {
+                ApiContextInitializer.init();
+                TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+                telegramBotsApi.registerBot(injector.messagesHandler());
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+
+            if (!configuration.youtubeApiKey().isEmpty() && !configuration.channels().isEmpty()) {
+                YouTubePoller poller = injector.youTubePoller();
+                poller.start();
+            }
+
+            if (!configuration.giantbombApiKey().isEmpty() && configuration.giantbombPlatforms().length > 0) {
+                GameProcess process = injector.gameProcess();
+                process.start();
+            }
         }
     }
 }
