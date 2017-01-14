@@ -23,6 +23,7 @@ public abstract class CommandHandler extends Handler {
         return description;
     }
 
+    @Override
     public boolean canHandle(Message message) {
         String text = message.getText();
         if (text == null || text.isEmpty()) {

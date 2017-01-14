@@ -7,8 +7,8 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.SentMessageCallback;
+import me.retran.consolelifebot.common.Utils;
 
 public abstract class PredefinedMessageCommandHandler extends CommandHandler {
     private final SentMessageCallback callback;

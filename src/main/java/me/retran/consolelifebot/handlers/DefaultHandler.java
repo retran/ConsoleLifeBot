@@ -5,9 +5,6 @@ import javax.inject.Singleton;
 
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
-import org.telegram.telegrambots.logging.BotLogger;
-
-import me.retran.consolelifebot.common.Utils;
 
 @Singleton
 public class DefaultHandler extends Handler {

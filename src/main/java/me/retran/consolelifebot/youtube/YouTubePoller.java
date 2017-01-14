@@ -23,8 +23,8 @@ import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.TelegramClient;
+import me.retran.consolelifebot.common.Utils;
 
 @Singleton
 public class YouTubePoller extends Thread {
@@ -46,6 +46,7 @@ public class YouTubePoller extends Thread {
                 .setApplicationName("Console Life Bot").build();
     }
 
+    @Override
     public void run() {
         while (true) {
             for (YouTubeEntry entry : fetchNewVideos(lastPolledAt)) {

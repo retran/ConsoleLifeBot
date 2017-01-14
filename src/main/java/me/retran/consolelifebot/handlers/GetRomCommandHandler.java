@@ -10,7 +10,6 @@ import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.logging.BotLogger;
 
 import me.retran.consolelifebot.common.Configuration;
 import me.retran.consolelifebot.library.Entry;

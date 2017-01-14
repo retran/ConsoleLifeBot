@@ -7,10 +7,9 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.logging.BotLogger;
 
-import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.SentMessageCallback;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.quiz.GameState;
 
 @Singleton

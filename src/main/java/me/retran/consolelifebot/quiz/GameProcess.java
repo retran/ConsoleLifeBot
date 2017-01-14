@@ -13,8 +13,8 @@ import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.TelegramClient;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.giantbomb.GameEntry;
 import me.retran.consolelifebot.giantbomb.GiantBombService;
 
@@ -35,6 +35,7 @@ public class GameProcess extends Thread {
         this.configuration = configuration;
     }
 
+    @Override
     public void run() {
         while (true) {
             int status = state.getStatus();
