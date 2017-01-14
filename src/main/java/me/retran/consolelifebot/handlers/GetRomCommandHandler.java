@@ -57,9 +57,7 @@ public class GetRomCommandHandler extends CommandHandler {
                         .setChatId(message.getChatId()).setReplyToMessageId(message.getMessageId());
                 sender.sendDocument(sendDocument);
             } catch (FileNotFoundException e) {
-                BotLogger.severe(this.getTemplate(), e);
             } catch (TelegramApiException e) {
-                BotLogger.severe(this.getTemplate(), e);
             }
         }
     }

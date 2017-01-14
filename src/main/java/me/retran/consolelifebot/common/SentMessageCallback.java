@@ -11,8 +11,6 @@ import org.telegram.telegrambots.updateshandlers.SentCallback;
 
 @Singleton
 public class SentMessageCallback implements SentCallback<Message> {
-    public static final String LOGTAG = "SENTMESSAGECALLBACK";
-
     @Inject
     public SentMessageCallback() {
 
@@ -25,11 +23,9 @@ public class SentMessageCallback implements SentCallback<Message> {
 
     @Override
     public void onError(BotApiMethod<Message> method, TelegramApiRequestException apiException) {
-        BotLogger.severe(LOGTAG, apiException);
     }
 
     @Override
     public void onException(BotApiMethod<Message> method, Exception exception) {
-        BotLogger.severe(LOGTAG, exception);
     }
 }

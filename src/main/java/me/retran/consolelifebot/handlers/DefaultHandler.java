@@ -7,7 +7,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.Utils;
 
 @Singleton
 public class DefaultHandler extends Handler {
@@ -23,6 +23,5 @@ public class DefaultHandler extends Handler {
 
     @Override
     public void handle(AbsSender sender, Message message) {
-        BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
     }
 }

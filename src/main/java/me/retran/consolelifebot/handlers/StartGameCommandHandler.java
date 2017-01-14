@@ -8,12 +8,11 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.quiz.GameState;
 
 @Singleton
 public class StartGameCommandHandler extends CommandHandler {
-
     private GameState state;
 
     @Inject
@@ -24,7 +23,7 @@ public class StartGameCommandHandler extends CommandHandler {
 
     @Override
     public void handle(AbsSender sender, Message message) {
-        BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
+        BotLogger.info(Utils.getDisplayName(message.getFrom()), message.getText());
         if (state.getStatus() == GameState.Idle) {
             state.setStatus(GameState.Playing);
         }

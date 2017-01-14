@@ -9,7 +9,7 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.SentMessageCallback;
 import me.retran.consolelifebot.quiz.GameState;
 
@@ -33,8 +33,7 @@ public class AnswerHandler extends Handler {
     @Override
     public void handle(AbsSender sender, Message message) {
         String answer = message.getText().trim().replaceFirst("!", "").trim();
-        String user = Helpers.getDisplayName(message.getFrom());
-        BotLogger.info(user, answer);
+        String user = Utils.getDisplayName(message.getFrom());
         String reply = null;
         if (state.hasAnswer(answer)) {
             reply = "Такой ответ уже был, попробуй другой.";
@@ -49,7 +48,6 @@ public class AnswerHandler extends Handler {
             try {
                 sender.sendMessageAsync(sendMessage, callback);
             } catch (TelegramApiException e) {
-                BotLogger.severe("answer", e);
             }
         }
     }

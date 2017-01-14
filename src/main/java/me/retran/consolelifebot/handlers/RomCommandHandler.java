@@ -49,7 +49,6 @@ public class RomCommandHandler extends CommandHandler {
         try {
             sender.sendMessageAsync(sendMessage, callback);
         } catch (TelegramApiException e) {
-            BotLogger.severe(this.getTemplate(), e);
         }
     }
 }

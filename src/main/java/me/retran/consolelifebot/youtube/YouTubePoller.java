@@ -23,7 +23,7 @@ import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.TelegramClient;
 
 @Singleton
@@ -61,7 +61,7 @@ public class YouTubePoller extends Thread {
                 }
             }
             lastPolledAt = LocalDateTime.now();
-            Helpers.sleep(30 * 60 * 1000);
+            Utils.sleep(30 * 60 * 1000);
         }
     }
 
@@ -97,11 +97,10 @@ public class YouTubePoller extends Thread {
                                             item.getSnippet().getResourceId().getVideoId())));
                         }
                     }
-                    Helpers.sleep(1000);
+                    Utils.sleep(1000);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return results;
     }

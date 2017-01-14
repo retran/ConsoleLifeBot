@@ -11,8 +11,6 @@ import me.retran.consolelifebot.handlers.HandlersRepository;
 
 @Singleton
 public class MessagesHandler extends TelegramLongPollingBot {
-    public static final String LOGTAG = "COMMANDSHANDLER";
-
     private final Configuration configuration;
     private final HandlersRepository handlers;
 

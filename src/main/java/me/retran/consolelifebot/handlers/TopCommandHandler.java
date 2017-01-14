@@ -10,7 +10,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.SentMessageCallback;
 import me.retran.consolelifebot.quiz.GameState;
 
@@ -28,7 +28,7 @@ public class TopCommandHandler extends CommandHandler {
 
     @Override
     public void handle(AbsSender sender, Message message) {
-        BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
+        BotLogger.info(Utils.getDisplayName(message.getFrom()), message.getText());
         String text = state.getScores();
         if (!text.isEmpty()) {
             SendMessage sendMessage = new SendMessage().setText(text).disableNotification().disableWebPagePreview()
@@ -36,7 +36,6 @@ public class TopCommandHandler extends CommandHandler {
             try {
                 sender.sendMessageAsync(sendMessage, callback);
             } catch (TelegramApiException e) {
-                BotLogger.severe(this.getTemplate(), e);
             }
         }
     }

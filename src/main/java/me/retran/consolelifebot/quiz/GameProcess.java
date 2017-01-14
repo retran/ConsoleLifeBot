@@ -13,7 +13,7 @@ import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.common.TelegramClient;
 import me.retran.consolelifebot.giantbomb.GameEntry;
 import me.retran.consolelifebot.giantbomb.GiantBombService;
@@ -51,7 +51,7 @@ public class GameProcess extends Thread {
             default:
                 break;
             }
-            Helpers.sleep(1000);
+            Utils.sleep(1000);
         }
     }
 
@@ -77,7 +77,6 @@ public class GameProcess extends Thread {
                     state.setStatus(GameState.Playing);
                 }
             } catch (TelegramApiException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -103,7 +102,6 @@ public class GameProcess extends Thread {
                         "Ну что? Сможете угадать игру по скриншоту? У вас 20 секунд на ответ.\n(отвечайте сообщениями типа \"!названиеигры\")");
                 state.setStatus(GameState.AwaitingAnswers);
             } catch (IOException | TelegramApiException e) {
-                e.printStackTrace();
             }
         }
     }
