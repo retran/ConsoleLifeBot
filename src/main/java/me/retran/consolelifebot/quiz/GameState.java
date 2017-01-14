@@ -18,8 +18,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.giantbomb.GameEntry;
-import me.retran.consolelifebot.utils.Levenstein;
 
 @Singleton
 public class GameState {
@@ -106,13 +106,13 @@ public class GameState {
     }
 
     public void addAnswer(String user, String answer) {
-        int baseEstimate = Levenstein.distance(game.name().toLowerCase(), answer.toLowerCase());
+        int baseEstimate = Utils.distance(game.name().toLowerCase(), answer.toLowerCase());
         String[] words = game.name().split(" ");
         String[] answerWords = answer.split(" ");
         boolean flag = false;
         for (int j = 0; j < answerWords.length; j++) {
             for (int i = 0; i < words.length; i++) {
-                int est = Levenstein.distance(answerWords[j].toLowerCase(), words[i].toLowerCase());
+                int est = Utils.distance(answerWords[j].toLowerCase(), words[i].toLowerCase());
                 System.out.println(words[i] + " " + answerWords[j]);
                 System.out.println(words[i].length() / 2);
                 System.out.println(est);
