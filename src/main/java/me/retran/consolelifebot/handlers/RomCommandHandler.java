@@ -1,17 +1,18 @@
 package me.retran.consolelifebot.handlers;
 
-import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.SentMessageCallback;
-import me.retran.consolelifebot.library.Entry;
-import me.retran.consolelifebot.library.Library;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.common.SentMessageCallback;
+import me.retran.consolelifebot.library.Entry;
+import me.retran.consolelifebot.library.Library;
 
 @Singleton
 public class RomCommandHandler extends CommandHandler {
@@ -27,11 +28,8 @@ public class RomCommandHandler extends CommandHandler {
 
     @Override
     public void handle(AbsSender sender, Message message) {
-        String arg = message.getText().trim()
-            .replace("@slonikdendy_bot", "")
-            .replace("/rom", "").trim();
-        SendMessage sendMessage = new SendMessage()
-                .setChatId(message.getChatId())
+        String arg = message.getText().trim().replace("@slonikdendy_bot", "").replace("/rom", "").trim();
+        SendMessage sendMessage = new SendMessage().setChatId(message.getChatId())
                 .setReplyToMessageId(message.getMessageId());
         if (arg.isEmpty()) {
             sendMessage.setText("Укажи строку для поиска после команды.");

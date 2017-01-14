@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Entry {
     private static volatile long count = 0;
-    
+
     private long id;
     private String filename;
     private String path;
@@ -14,8 +14,8 @@ public class Entry {
         count++;
         return count;
     }
-    
-    public Entry(String path) {        
+
+    public Entry(String path) {
         File f = new File(path);
         this.id = getNewId();
         this.path = f.getAbsolutePath();

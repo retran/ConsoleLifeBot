@@ -1,13 +1,13 @@
 package me.retran.consolelifebot.common;
 
-import me.retran.consolelifebot.handlers.HandlersRepository;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import me.retran.consolelifebot.handlers.HandlersRepository;
 
 @Singleton
 public class MessagesHandler extends TelegramLongPollingBot {

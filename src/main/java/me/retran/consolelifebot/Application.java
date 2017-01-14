@@ -1,22 +1,23 @@
 package me.retran.consolelifebot;
 
-import dagger.Component;
-
-import me.retran.consolelifebot.common.MessagesHandler;
-import me.retran.consolelifebot.quiz.GameProcess;
-import me.retran.consolelifebot.youtube.YouTubePoller;
+import javax.inject.Singleton;
 
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import javax.inject.Singleton;
+import dagger.Component;
+import me.retran.consolelifebot.common.MessagesHandler;
+import me.retran.consolelifebot.quiz.GameProcess;
+import me.retran.consolelifebot.youtube.YouTubePoller;
 
 @Singleton
 @Component(modules = ApplicationModule.class)
 interface Dependencies {
     MessagesHandler messagesHandler();
+
     YouTubePoller youTubePoller();
+
     GameProcess gameProcess();
 }
 

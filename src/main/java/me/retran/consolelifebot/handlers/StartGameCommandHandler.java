@@ -14,20 +14,20 @@ import me.retran.consolelifebot.quiz.GameState;
 @Singleton
 public class StartGameCommandHandler extends CommandHandler {
 
-	private GameState state;
+    private GameState state;
 
-	@Inject
-	public StartGameCommandHandler(Configuration configuration, GameState state) {
-		super(configuration, "/startgame", "");
-		this.state = state;
-	}
+    @Inject
+    public StartGameCommandHandler(Configuration configuration, GameState state) {
+        super(configuration, "/startgame", "");
+        this.state = state;
+    }
 
-	@Override
-	public void handle(AbsSender sender, Message message) {
+    @Override
+    public void handle(AbsSender sender, Message message) {
         BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
-		if (state.getStatus() == GameState.Idle) {
-			state.setStatus(GameState.Playing);
-		}
-	}
+        if (state.getStatus() == GameState.Idle) {
+            state.setStatus(GameState.Playing);
+        }
+    }
 
 }

@@ -16,34 +16,29 @@ import me.retran.consolelifebot.quiz.GameState;
 
 @Singleton
 public class TopCommandHandler extends CommandHandler {
-	private GameState state;
-	private SentMessageCallback callback;
+    private GameState state;
+    private SentMessageCallback callback;
 
-	@Inject
-	public TopCommandHandler(Configuration configuration, GameState state, SentMessageCallback callback) {
-		super(configuration, "/top", "");
-		this.state = state;
-		this.callback = callback;
-	}
+    @Inject
+    public TopCommandHandler(Configuration configuration, GameState state, SentMessageCallback callback) {
+        super(configuration, "/top", "");
+        this.state = state;
+        this.callback = callback;
+    }
 
-	@Override
-	public void handle(AbsSender sender, Message message) {
+    @Override
+    public void handle(AbsSender sender, Message message) {
         BotLogger.info(Helpers.getDisplayName(message.getFrom()), message.getText());
-		String text = state.getScores();
-		if (!text.isEmpty()) {
-	        SendMessage sendMessage = new SendMessage()
-	                .setText(text)
-	                .disableNotification()
-	                .disableWebPagePreview()
-	                .enableHtml(true)
-	                .setChatId(message.getChatId())
-	                .setReplyToMessageId(message.getMessageId());
-	        try {
-	            sender.sendMessageAsync(sendMessage, callback);
-	        } catch (TelegramApiException e) {
-	            BotLogger.severe(this.getTemplate(), e);
-	        }
-		}
-	}
+        String text = state.getScores();
+        if (!text.isEmpty()) {
+            SendMessage sendMessage = new SendMessage().setText(text).disableNotification().disableWebPagePreview()
+                    .enableHtml(true).setChatId(message.getChatId()).setReplyToMessageId(message.getMessageId());
+            try {
+                sender.sendMessageAsync(sendMessage, callback);
+            } catch (TelegramApiException e) {
+                BotLogger.severe(this.getTemplate(), e);
+            }
+        }
+    }
 
 }

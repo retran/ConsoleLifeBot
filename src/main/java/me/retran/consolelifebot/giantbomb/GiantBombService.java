@@ -43,9 +43,7 @@ public class GiantBombService {
     }
 
     public InputStream getFile(String url) throws IOException {
-        Request request = new Request.Builder()
-            .url(url)
-            .build();
+        Request request = new Request.Builder().url(url).build();
         Response response = client.newCall(request).execute();
         return response.body().byteStream();
     }
@@ -57,21 +55,15 @@ public class GiantBombService {
             hasCount = counts.containsKey(id);
         }
         if (!hasCount) {
-            HttpUrl url = this.baseUri.newBuilder()
-                .addPathSegment("games")
-                .addQueryParameter("api_key", this.configuration.giantbombApiKey())
-                .addQueryParameter("format", "json")
-                .addQueryParameter("limit", "1")
-                .addQueryParameter("platforms", id)
-                .addQueryParameter("fieldList", "id")
-                .build();
-            Request request = new Request.Builder()
-                .url(url)
-                .build();
+            HttpUrl url = this.baseUri.newBuilder().addPathSegment("games")
+                    .addQueryParameter("api_key", this.configuration.giantbombApiKey())
+                    .addQueryParameter("format", "json").addQueryParameter("limit", "1")
+                    .addQueryParameter("platforms", id).addQueryParameter("fieldList", "id").build();
+            Request request = new Request.Builder().url(url).build();
             Response response = client.newCall(request).execute();
             Moshi moshi = new Moshi.Builder().build();
-            JsonAdapter<GiantBombResponse<GameListEntry[]>> jsonAdapter
-                = moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameListEntry[].class));
+            JsonAdapter<GiantBombResponse<GameListEntry[]>> jsonAdapter = moshi
+                    .adapter(Types.newParameterizedType(GiantBombResponse.class, GameListEntry[].class));
             GiantBombResponse<GameListEntry[]> result = null;
             result = jsonAdapter.fromJson(response.body().string());
             synchronized (countsLock) {
@@ -89,50 +81,37 @@ public class GiantBombService {
         int count = 0;
         int offset = 0;
         synchronized (randomLock) {
-            BotLogger.info("randomGame", Integer.toString(platforms.length));	
+            BotLogger.info("randomGame", Integer.toString(platforms.length));
             platform = platforms[random.nextInt(platforms.length)];
             System.out.println("Platform: " + platform);
             count = getGameCountForPlatform(platform);
             System.out.println(count);
-            BotLogger.info("randomGame", Integer.toString(count));	            
+            BotLogger.info("randomGame", Integer.toString(count));
             offset = random.nextInt(count);
         }
-        HttpUrl url = this.baseUri.newBuilder()
-            .addPathSegment("games")
-            .addQueryParameter("api_key", this.configuration.giantbombApiKey())
-            .addQueryParameter("format", "json")
-            .addQueryParameter("limit", "1")
-            .addQueryParameter("offset", Integer.toString(offset))
-            .addQueryParameter("platforms", platform)
-            .addQueryParameter("field_list", "id")
-            .build();
-        Request request = new Request.Builder()
-            .url(url)
-            .build();
+        HttpUrl url = this.baseUri.newBuilder().addPathSegment("games")
+                .addQueryParameter("api_key", this.configuration.giantbombApiKey()).addQueryParameter("format", "json")
+                .addQueryParameter("limit", "1").addQueryParameter("offset", Integer.toString(offset))
+                .addQueryParameter("platforms", platform).addQueryParameter("field_list", "id").build();
+        Request request = new Request.Builder().url(url).build();
         GiantBombResponse<GameListEntry[]> result = null;
         Response response = client.newCall(request).execute();
         Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<GiantBombResponse<GameListEntry[]>> jsonAdapter 
-        	= moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameListEntry[].class));
+        JsonAdapter<GiantBombResponse<GameListEntry[]>> jsonAdapter = moshi
+                .adapter(Types.newParameterizedType(GiantBombResponse.class, GameListEntry[].class));
         result = jsonAdapter.fromJson(response.body().string());
-        return getGame(result.results()[0].id());
+        return mapGameEntry(result.results()[0].id());
     }
 
-    private GameEntry getGame(int id) throws IOException {
-        HttpUrl url = this.baseUri.newBuilder()
-            .addPathSegment("game")
-            .addPathSegment(Integer.toString(id))
-            .addQueryParameter("api_key", this.configuration.giantbombApiKey())
-            .addQueryParameter("format", "json")
-            .addQueryParameter("field_list", "id,name,site_detail_url,images")
-            .build();
-        Request request = new Request.Builder()
-            .url(url)
-            .build();
+    private GameEntry mapGameEntry(int id) throws IOException {
+        HttpUrl url = this.baseUri.newBuilder().addPathSegment("game").addPathSegment(Integer.toString(id))
+                .addQueryParameter("api_key", this.configuration.giantbombApiKey()).addQueryParameter("format", "json")
+                .addQueryParameter("field_list", "id,name,site_detail_url,images").build();
+        Request request = new Request.Builder().url(url).build();
         Response response = client.newCall(request).execute();
         Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<GiantBombResponse<GameEntry>> jsonAdapter = 
-        		moshi.adapter(Types.newParameterizedType(GiantBombResponse.class,  GameEntry.class));
+        JsonAdapter<GiantBombResponse<GameEntry>> jsonAdapter = moshi
+                .adapter(Types.newParameterizedType(GiantBombResponse.class, GameEntry.class));
         GiantBombResponse<GameEntry> result = null;
         result = jsonAdapter.fromJson(response.body().string());
         return result.results();

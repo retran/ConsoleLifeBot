@@ -1,13 +1,13 @@
 package me.retran.consolelifebot.common;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.logging.BotLogger;
 import org.telegram.telegrambots.updateshandlers.SentCallback;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 @Singleton
 public class SentMessageCallback implements SentCallback<Message> {

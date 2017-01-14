@@ -1,9 +1,9 @@
 package me.retran.consolelifebot.common;
 
-import org.telegram.telegrambots.api.objects.User;
-
 import java.io.InputStream;
 import java.util.Scanner;
+
+import org.telegram.telegrambots.api.objects.User;
 
 public class Helpers {
     public static String getDisplayName(User user) {
@@ -17,8 +17,7 @@ public class Helpers {
     public static String getPredefinedMessage(String filename) {
         StringBuilder sb = new StringBuilder();
         boolean firstLine = true;
-        InputStream in = Helpers.class.getClassLoader()
-                .getResourceAsStream(filename);
+        InputStream in = Helpers.class.getClassLoader().getResourceAsStream(filename);
         Scanner scanner = new Scanner(in, "utf-8");
         while (scanner.hasNextLine()) {
             if (!firstLine) {
@@ -28,5 +27,13 @@ public class Helpers {
         }
         scanner.close();
         return sb.toString();
+    }
+
+    public static void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

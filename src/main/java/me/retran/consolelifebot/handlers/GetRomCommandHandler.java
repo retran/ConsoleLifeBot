@@ -1,18 +1,20 @@
 package me.retran.consolelifebot.handlers;
 
-import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.library.Entry;
-import me.retran.consolelifebot.library.Library;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.library.Entry;
+import me.retran.consolelifebot.library.Library;
 
 @Singleton
 public class GetRomCommandHandler extends CommandHandler {
@@ -23,7 +25,6 @@ public class GetRomCommandHandler extends CommandHandler {
         super(configuration, "/r", "");
         this.library = library;
     }
-
 
     @Override
     public boolean canHandle(Message message) {
@@ -48,13 +49,12 @@ public class GetRomCommandHandler extends CommandHandler {
         }
         text = text.replace(getTemplate(), "");
         long id = Long.parseLong(text);
-        Entry entry = library.getEntry(id);
+        Entry entry = library.get(id);
         if (entry != null) {
             try {
                 SendDocument sendDocument = new SendDocument()
                         .setNewDocument(entry.getFilename(), new FileInputStream(entry.getPath()))
-                        .setChatId(message.getChatId())
-                        .setReplyToMessageId(message.getMessageId());
+                        .setChatId(message.getChatId()).setReplyToMessageId(message.getMessageId());
                 sender.sendDocument(sendDocument);
             } catch (FileNotFoundException e) {
                 BotLogger.severe(this.getTemplate(), e);

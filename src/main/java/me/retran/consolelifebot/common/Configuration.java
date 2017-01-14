@@ -18,8 +18,7 @@ public class Configuration {
     public Configuration() {
         this.properties = new Properties();
         try {
-            InputStream in = this.getClass().getClassLoader()
-                .getResourceAsStream(filename);
+            InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
             try {
                 this.properties.load(in);
             } finally {
@@ -31,7 +30,7 @@ public class Configuration {
     }
 
     private String getProperty(String property) {
-        return this.properties.getProperty(prefix + property); 
+        return this.properties.getProperty(prefix + property);
     }
 
     public String telegramToken() {
@@ -61,8 +60,12 @@ public class Configuration {
     public String channels() {
         return getProperty("channels");
     }
-    
+
     public String topFilename() {
         return getProperty("topfilename");
+    }
+
+    public String chatName() {
+        return "@consolelife";
     }
 }

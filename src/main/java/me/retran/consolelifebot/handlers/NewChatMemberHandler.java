@@ -1,17 +1,18 @@
 package me.retran.consolelifebot.handlers;
 
-import me.retran.consolelifebot.common.Helpers;
-import me.retran.consolelifebot.common.SentMessageCallback;
+import static me.retran.consolelifebot.common.MessagesHandler.LOGTAG;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import static me.retran.consolelifebot.common.MessagesHandler.LOGTAG;
+import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.SentMessageCallback;
 
 @Singleton
 public class NewChatMemberHandler extends Handler {
@@ -32,13 +33,8 @@ public class NewChatMemberHandler extends Handler {
     @Override
     public void handle(AbsSender sender, Message message) {
         BotLogger.info(Helpers.getDisplayName(message.getNewChatMember()), "enter");
-        SendMessage sendMessage = new SendMessage()
-                .setChatId(message.getChatId())
-                .disableNotification()
-                .disableWebPagePreview()
-                .enableHtml(true)
-                .setReplyToMessageId(message.getMessageId())
-                .setText(welcome);
+        SendMessage sendMessage = new SendMessage().setChatId(message.getChatId()).disableNotification()
+                .disableWebPagePreview().enableHtml(true).setReplyToMessageId(message.getMessageId()).setText(welcome);
         try {
             sender.sendMessageAsync(sendMessage, callback);
         } catch (TelegramApiException e) {

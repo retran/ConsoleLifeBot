@@ -1,5 +1,17 @@
 package me.retran.consolelifebot.youtube;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
+
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -9,38 +21,35 @@ import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
-import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.TelegramClient;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
+import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.common.Helpers;
+import me.retran.consolelifebot.common.TelegramClient;
 
 @Singleton
 public class YouTubePoller extends Thread {
     private final Configuration configuration;
     private final TelegramClient telegramClient;
     private LocalDateTime lastPolledAt;
+    private YouTube youTube;
 
     @Inject
     public YouTubePoller(Configuration configuration, TelegramClient telegramClient) {
         this.configuration = configuration;
         this.telegramClient = telegramClient;
         this.lastPolledAt = LocalDateTime.now();
+
+        HttpRequestInitializer initializer = request -> {
+        };
+        this.youTube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), initializer)
+                .setYouTubeRequestInitializer(new YouTubeRequestInitializer(configuration.youtubeApiKey()))
+                .setApplicationName("Console Life Bot").build();
     }
 
     public void run() {
         while (true) {
-            for (YouTubeEntry entry : getNewVideos(lastPolledAt)) {
-                SendMessage sendMessage = new SendMessage()
-                        .setChatId("@consolenote")
-                        .setParseMode("HTML")
+            for (YouTubeEntry entry : fetchNewVideos(lastPolledAt)) {
+                SendMessage sendMessage = new SendMessage().setChatId("@consolenote").setParseMode("HTML")
                         .setText(entry.getText());
                 try {
                     telegramClient.sendMessage(sendMessage);
@@ -52,24 +61,12 @@ public class YouTubePoller extends Thread {
                 }
             }
             lastPolledAt = LocalDateTime.now();
-            try {
-                Thread.sleep(30 * 60 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Helpers.sleep(30 * 60 * 1000);
         }
     }
 
-    private ArrayList<YouTubeEntry> getNewVideos(LocalDateTime after) {
+    private ArrayList<YouTubeEntry> fetchNewVideos(LocalDateTime after) {
         ArrayList<YouTubeEntry> results = new ArrayList<>();
-        HttpRequestInitializer initializer = request -> {
-        };
-        YouTube youTube = new YouTube.Builder(new NetHttpTransport(),
-                                              new JacksonFactory(), initializer)
-            .setYouTubeRequestInitializer(
-                                          new YouTubeRequestInitializer(configuration.youtubeApiKey()))
-            .setApplicationName("Console Life Bot")
-            .build();
         try {
             YouTube.Channels.List channelsListRequest = youTube.channels().list("snippet, contentDetails")
                     .setId(configuration.channels());
@@ -92,21 +89,15 @@ public class YouTubePoller extends Thread {
                         finished = true;
                     }
                     for (PlaylistItem item : playlistItemListResponse.getItems()) {
-                        LocalDateTime publishedAt = new Date(item.getSnippet().getPublishedAt().getValue())
-                                .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                        LocalDateTime publishedAt = new Date(item.getSnippet().getPublishedAt().getValue()).toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDateTime();
                         if (publishedAt.compareTo(after) >= 0) {
-                            results.add(new YouTubeEntry(
-                                    item.getSnippet().getTitle(),
-                                    channel.getSnippet().getTitle(),
-                                    "https://www.youtube.com/watch?v=" + item.getSnippet().getResourceId().getVideoId()
-                            ));
+                            results.add(new YouTubeEntry(item.getSnippet().getTitle(), channel.getSnippet().getTitle(),
+                                    String.format("https://www.youtube.com/watch?v=%s",
+                                            item.getSnippet().getResourceId().getVideoId())));
                         }
                     }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    Helpers.sleep(1000);
                 }
             }
         } catch (IOException e) {

@@ -27,13 +27,14 @@ public class GameState {
     public final static int Playing = 1;
     public final static int AwaitingAnswers = 2;
 
+    private Configuration configuration;
+
     private int status = Idle;
     private GameEntry game = null;
     private LocalDateTime stateChangedAt;
     private Map<String, Integer> scores;
-
     private List<Answer> answers;
-    private Configuration configuration;
+    private Object object = new Object();
 
     @Inject
     public GameState(Configuration configuration) {
@@ -43,26 +44,28 @@ public class GameState {
         loadScores();
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings({ "unchecked" })
     private void loadScores() {
         try {
-            if (new File(configuration.topFilename()).exists()) {
-                FileInputStream fis = null;
-                ObjectInputStream ois = null;
-                try {
-                    fis = new FileInputStream(configuration.topFilename());
-                    ois = new ObjectInputStream(fis);
-                    scores = (HashMap<String, Integer>) ois.readObject();
-                } finally {
-                    if (ois != null) {
-                        ois.close();
+            synchronized (object) {
+                if (new File(configuration.topFilename()).exists()) {
+                    FileInputStream fis = null;
+                    ObjectInputStream ois = null;
+                    try {
+                        fis = new FileInputStream(configuration.topFilename());
+                        ois = new ObjectInputStream(fis);
+                        scores = (HashMap<String, Integer>) ois.readObject();
+                    } finally {
+                        if (ois != null) {
+                            ois.close();
+                        }
+                        if (fis != null) {
+                            fis.close();
+                        }
                     }
-                    if (fis != null) {
-                        fis.close();
-                    }
+                } else {
+                    scores = new HashMap<String, Integer>();
                 }
-            } else {
-                scores = new HashMap<String, Integer>();
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Can't load scores.", e);
@@ -104,31 +107,25 @@ public class GameState {
 
     public void addAnswer(String user, String answer) {
         int baseEstimate = Levenstein.distance(game.name().toLowerCase(), answer.toLowerCase());
-
-        System.out.println(game.name() + " " + answer);
-        System.out.println(baseEstimate);
-        
         String[] words = game.name().split(" ");
         String[] answerWords = answer.split(" ");
         boolean flag = false;
         for (int j = 0; j < answerWords.length; j++) {
             for (int i = 0; i < words.length; i++) {
-                int est = Levenstein.distance(answerWords[j].toLowerCase(), words[i].toLowerCase()); 
+                int est = Levenstein.distance(answerWords[j].toLowerCase(), words[i].toLowerCase());
                 System.out.println(words[i] + " " + answerWords[j]);
                 System.out.println(words[i].length() / 2);
                 System.out.println(est);
-                
+
                 if (est <= words[i].length() / 2) {
                     System.out.println("right");
                     flag = true;
                 }
             }
         }
-
         if (!flag) {
             baseEstimate = 10000;
         }
-
         answers.add(new Answer(user, answer, baseEstimate));
     }
 
@@ -175,23 +172,25 @@ public class GameState {
     }
 
     private void saveScores() {
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-        try {
+        synchronized (object) {
+            FileOutputStream fos = null;
+            ObjectOutputStream oos = null;
             try {
-                fos = new FileOutputStream(configuration.topFilename());
-                oos = new ObjectOutputStream(fos);
-                oos.writeObject(scores);
-            } finally {
-                if (oos != null) {
-                    oos.close();
+                try {
+                    fos = new FileOutputStream(configuration.topFilename());
+                    oos = new ObjectOutputStream(fos);
+                    oos.writeObject(scores);
+                } finally {
+                    if (oos != null) {
+                        oos.close();
+                    }
+                    if (fos != null) {
+                        fos.close();
+                    }
                 }
-                if (fos != null) {
-                    fos.close();
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
