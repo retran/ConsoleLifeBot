@@ -7,6 +7,7 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
+import me.retran.consolelifebot.Configuration;
 import me.retran.consolelifebot.handlers.HandlersRepository;
 
 @Singleton

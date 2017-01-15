@@ -12,11 +12,11 @@ import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.Configuration;
+import me.retran.consolelifebot.TelegramService;
 import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.giantbomb.GameEntry;
 import me.retran.consolelifebot.giantbomb.GiantBombService;
-import me.retran.consolelifebot.messaging.TelegramService;
 
 @Singleton
 public class GameProcess extends Thread {

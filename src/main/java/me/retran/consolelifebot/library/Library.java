@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.Configuration;
 
 @Singleton
 public class Library {

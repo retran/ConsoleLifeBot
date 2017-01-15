@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.common;
+package me.retran.consolelifebot;
 
 import java.io.IOException;
 import java.io.InputStream;

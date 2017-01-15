@@ -3,7 +3,7 @@ package me.retran.consolelifebot.handlers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.Configuration;
 import me.retran.consolelifebot.common.SentMessageCallback;
 
 @Singleton

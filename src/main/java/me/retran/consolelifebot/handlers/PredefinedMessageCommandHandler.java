@@ -6,7 +6,7 @@ import org.telegram.telegrambots.bots.AbsSender;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.logging.BotLogger;
 
-import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.Configuration;
 import me.retran.consolelifebot.common.SentMessageCallback;
 import me.retran.consolelifebot.common.Utils;
 

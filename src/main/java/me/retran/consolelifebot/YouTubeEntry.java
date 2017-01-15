@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.youtube;
+package me.retran.consolelifebot;
 
 public class YouTubeEntry {
     private String title;

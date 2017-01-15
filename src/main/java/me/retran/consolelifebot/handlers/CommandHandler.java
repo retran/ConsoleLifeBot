@@ -2,7 +2,7 @@ package me.retran.consolelifebot.handlers;
 
 import org.telegram.telegrambots.api.objects.Message;
 
-import me.retran.consolelifebot.common.Configuration;
+import me.retran.consolelifebot.Configuration;
 
 public abstract class CommandHandler extends Handler {
     protected final Configuration configuration;
