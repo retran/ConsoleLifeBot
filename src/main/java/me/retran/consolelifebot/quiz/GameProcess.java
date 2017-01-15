@@ -13,22 +13,22 @@ import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import me.retran.consolelifebot.common.Configuration;
-import me.retran.consolelifebot.common.TelegramClient;
 import me.retran.consolelifebot.common.Utils;
 import me.retran.consolelifebot.giantbomb.GameEntry;
 import me.retran.consolelifebot.giantbomb.GiantBombService;
+import me.retran.consolelifebot.messaging.telegram.TelegramMessagingService;
 
 @Singleton
 public class GameProcess extends Thread {
     private GameState state;
     private GiantBombService giantbombService;
-    private TelegramClient client;
+    private TelegramMessagingService client;
     private int time;
     private Configuration configuration;
 
     @Inject
     public GameProcess(Configuration configuration, GameState state, GiantBombService giantbombService,
-            TelegramClient client) {
+            TelegramMessagingService client) {
         this.state = state;
         this.giantbombService = giantbombService;
         this.client = client;

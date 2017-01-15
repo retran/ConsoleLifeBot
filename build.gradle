@@ -2,8 +2,13 @@ plugins {
     id "net.ltgt.apt" version "0.9"
     id 'org.hidetake.ssh' version "2.7.0"
     id 'java'
+    id 'scala'
     id 'application'
     id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
 }
 
 group 'me.retran.consolelifebot'
@@ -23,8 +28,28 @@ sourceSets {
     }
 }
 
-repositories {
-    mavenCentral()
+ext {
+  generatedSourcesDir = file("gen-src/main/java")
+}
+
+dependencies {
+    apt 'com.google.dagger:dagger-compiler:2.8'
+    
+	compile 'org.scala-lang:scala-library:2.11.8'
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.4.16'
+    compile group: 'com.typesafe.akka', name: 'akka-contrib_2.10', version: '2.3.16'
+    
+    compile 'com.squareup.moshi:moshi:1.3.1'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    
+    compile 'com.google.dagger:dagger:2.8'
+    
+    compile group: 'org.telegram', name: 'telegrambots', version: '2.4.4'
+    
+    compile 'com.google.api-client:google-api-client:1.22.0'
+    compile 'com.google.apis:google-api-services-youtube:v3-rev180-1.22.0'
+    
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
 distributions {
@@ -35,10 +60,6 @@ distributions {
            }
        }
     }
-}
-
-ext {
-  generatedSourcesDir = file("gen-src/main/java")
 }
 
 remotes {
@@ -67,14 +88,3 @@ task deploy << {
 }
 
 deploy.dependsOn distTar 
-
-dependencies {
-    apt 'com.google.dagger:dagger-compiler:2.8'
-    compile 'com.squareup.moshi:moshi:1.3.1'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'com.google.dagger:dagger:2.8'
-    compile group: 'org.telegram', name: 'telegrambots', version: '2.4.4'
-    compile 'com.google.api-client:google-api-client:1.22.0'
-    compile 'com.google.apis:google-api-services-youtube:v3-rev180-1.22.0'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}
