@@ -24,17 +24,17 @@ import com.google.api.services.youtube.model.PlaylistItemListResponse;
 
 import me.retran.consolelifebot.common.Configuration;
 import me.retran.consolelifebot.common.Utils;
-import me.retran.consolelifebot.messaging.telegram.TelegramMessagingService;
+import me.retran.consolelifebot.messaging.TelegramService;
 
 @Singleton
 public class LegacyYouTubePoller extends Thread {
     private final Configuration configuration;
-    private final TelegramMessagingService telegramClient;
+    private final TelegramService telegramClient;
     private LocalDateTime lastPolledAt;
     private YouTube youTube;
 
     @Inject
-    public LegacyYouTubePoller(Configuration configuration, TelegramMessagingService telegramClient) {
+    public LegacyYouTubePoller(Configuration configuration, TelegramService telegramClient) {
         this.configuration = configuration;
         this.telegramClient = telegramClient;
         this.lastPolledAt = LocalDateTime.now();
