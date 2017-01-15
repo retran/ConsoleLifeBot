@@ -1,21 +1,9 @@
 
 package me.retran.consolelifebot;
 
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
-import org.telegram.telegrambots.ApiConstants;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.updates.GetUpdates;
-import org.telegram.telegrambots.api.objects.Update;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -26,7 +14,7 @@ import akka.stream.javadsl.Source;
 import akka.stream.scaladsl.Sink;
 import me.retran.consolelifebot.common.MessagesHandler;
 import me.retran.consolelifebot.quiz.GameProcess;
-import scala.concurrent.duration.Duration;
+import scala.Function1;
 import scala.concurrent.duration.FiniteDuration;
 
 public class Application {
@@ -43,10 +31,11 @@ public class Application {
         Source.fromGraph(new YouTubePollingSource(new FiniteDuration(15, TimeUnit.MINUTES), 
                 configuration.youtubeApiKey(), configuration.channels()))
             .map(i -> new SendMessage()
-                .setChatId("@consolenote")
-                .setText(i.getText()))            
+                .setChatId("@retran_debug_bot")
+                .setText(i.getText())
+                .setParseMode("HTML"))            
             .throttle(30, new FiniteDuration(1, TimeUnit.SECONDS), 30, ThrottleMode.shaping())
-            .to(Sink.actorRef(telegramPublisher, null))
+            .to(Sink.actorRefWithAck(telegramPublisher, "init", "ack", "done", null))
             .run(materializer);
         
         MessagesHandler messageHandler = injector.messagesHandler();

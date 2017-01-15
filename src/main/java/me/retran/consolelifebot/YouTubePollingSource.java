@@ -59,6 +59,8 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
             
             {
                 this.lastPolledAt = LocalDateTime.now();
+//                this.lastPolledAt = LocalDateTime.of(2016, 12, 30, 0, 0);
+
                 setHandler(out, new AbstractOutHandler() {
                    @Override
                    public void onPull() {                       
@@ -106,7 +108,6 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
                         results.add(new YouTubeEntry(item.getSnippet().getTitle(), channel.getSnippet().getTitle(),
                                 String.format("https://www.youtube.com/watch?v=%s",
                                         item.getSnippet().getResourceId().getVideoId())));
-                        System.out.println(item.getSnippet().getTitle());
                     }
                 }
             }
