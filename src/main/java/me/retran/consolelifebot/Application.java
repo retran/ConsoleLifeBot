@@ -43,7 +43,7 @@ public class Application {
         Source.fromGraph(new YouTubePollingSource(new FiniteDuration(15, TimeUnit.MINUTES), 
                 configuration.youtubeApiKey(), configuration.channels()))
             .map(i -> new SendMessage()
-                .setChatId("@retran_debug_bot")
+                .setChatId("@consolenote")
                 .setText(i.getText()))            
             .throttle(30, new FiniteDuration(1, TimeUnit.SECONDS), 30, ThrottleMode.shaping())
             .to(Sink.actorRef(telegramPublisher, null))
