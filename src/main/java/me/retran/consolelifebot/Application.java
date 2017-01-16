@@ -14,7 +14,6 @@ import akka.stream.javadsl.Source;
 import akka.stream.scaladsl.Sink;
 import me.retran.consolelifebot.common.MessagesHandler;
 import me.retran.consolelifebot.quiz.GameProcess;
-import scala.Function1;
 import scala.concurrent.duration.FiniteDuration;
 
 public class Application {
@@ -31,13 +30,13 @@ public class Application {
         Source.fromGraph(new YouTubePollingSource(new FiniteDuration(15, TimeUnit.MINUTES), 
                 configuration.youtubeApiKey(), configuration.channels()))
             .map(i -> new SendMessage()
-                .setChatId("@retran_debug_bot")
+                .setChatId("@consolenote")
                 .setText(i.getText())
                 .setParseMode("HTML"))            
             .throttle(30, new FiniteDuration(1, TimeUnit.SECONDS), 30, ThrottleMode.shaping())
             .to(Sink.actorRefWithAck(telegramPublisher, "init", "ack", "done", null))
             .run(materializer);
-        
+
         MessagesHandler messageHandler = injector.messagesHandler();
         Source.fromGraph(new TelegramPollingSource(new FiniteDuration(500, TimeUnit.MILLISECONDS),
                 injector.telegramService()))

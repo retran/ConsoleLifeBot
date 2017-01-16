@@ -59,8 +59,6 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
             
             {
                 this.lastPolledAt = LocalDateTime.now();
-//                this.lastPolledAt = LocalDateTime.of(2016, 12, 30, 0, 0);
-
                 setHandler(out, new AbstractOutHandler() {
                    @Override
                    public void onPull() {                       
@@ -80,6 +78,8 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
                     buffer.addAll(fetchNewVideos(lastPolledAt));
                     lastPolledAt = startedPollingAt;
                 }
+
+                this.
                 
                 if (!buffer.isEmpty()) {
                     push(out, buffer.poll());

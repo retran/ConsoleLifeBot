@@ -1,31 +1,18 @@
 package me.retran.consolelifebot;
 
-import akka.stream.Outlet;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Queue;
 
 import org.telegram.telegrambots.api.objects.Update;
 
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.YouTubeRequestInitializer;
-import com.google.api.services.youtube.model.Channel;
-import com.google.api.services.youtube.model.ChannelListResponse;
-import com.google.api.services.youtube.model.PlaylistItem;
-import com.google.api.services.youtube.model.PlaylistItemListResponse;
-
 import akka.stream.Attributes;
+import akka.stream.Outlet;
 import akka.stream.SourceShape;
-import akka.stream.stage.*;
+import akka.stream.stage.AbstractOutHandler;
+import akka.stream.stage.GraphStage;
+import akka.stream.stage.GraphStageLogic;
+import akka.stream.stage.TimerGraphStageLogic;
 import scala.concurrent.duration.FiniteDuration;
 
 public class TelegramPollingSource extends GraphStage<SourceShape<Update>> {

@@ -17,8 +17,6 @@ import akka.actor.UntypedActor;
 import akka.contrib.throttle.Throttler;
 import akka.contrib.throttle.TimerBasedThrottler;
 import akka.dispatch.OnComplete;
-import akka.dispatch.OnSuccess;
-import akka.io.TcpListener.FailedRegisterIncoming;
 import akka.japi.Creator;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
@@ -98,7 +96,7 @@ public class TelegramPublisher extends UntypedActor {
                                 "channel:" + sendMessage.getChatId());
                 channel.tell(new Throttler.SetTarget(publisher), null);
                 channels.put(sendMessage.getChatId(), channel);
-            }
+            }            
             Future<Object> f = Patterns.ask(channel, sendMessage, 
                     new Timeout(new FiniteDuration(60, TimeUnit.SECONDS)));
             ActorRef sender = getSender();

@@ -106,7 +106,8 @@ public class GameState {
     }
 
     public void addAnswer(String user, String answer) {
-        int baseEstimate = Utils.distance(game.name().toLowerCase(), answer.toLowerCase());
+        int baseEstimate = Utils.distance(game.name().toLowerCase().replace(" ", ""),
+                                          answer.toLowerCase().replace(" ", ""));
         String[] words = game.name().split(" ");
         String[] answerWords = answer.split(" ");
         boolean flag = false;
