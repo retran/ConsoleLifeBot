@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.library;
+package me.retran.consolelifebot;
 
 import java.io.File;
 

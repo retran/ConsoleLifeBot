@@ -1,12 +1,10 @@
-package me.retran.consolelifebot.library;
+package me.retran.consolelifebot;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import me.retran.consolelifebot.Configuration;
 
 @Singleton
 public class Library {

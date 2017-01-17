@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -44,38 +43,35 @@ public class TelegramService extends DefaultAbsSender {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private CloseableHttpClient httpclient;
     private RequestConfig requestConfig;
-    
+
     @Inject
     public TelegramService(Configuration configuration) {
         super(ApiContext.getInstance(DefaultBotOptions.class));
         this.configuration = configuration;
-        
-        httpclient = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                .setConnectionTimeToLive(70, TimeUnit.SECONDS)
-                .setMaxConnTotal(100)
-                .build();
 
-        requestConfig = ApiContext.getInstance(DefaultBotOptions.class)
-                .getRequestConfig();
+        httpclient = HttpClientBuilder.create().setSSLHostnameVerifier(new NoopHostnameVerifier())
+                .setConnectionTimeToLive(70, TimeUnit.SECONDS).setMaxConnTotal(100).build();
+
+        requestConfig = ApiContext.getInstance(DefaultBotOptions.class).getRequestConfig();
     }
 
     @Override
     public String getBotToken() {
         return this.configuration.telegramToken();
     }
-    
+
     public List<Update> getUpdates(int lastReceivedUpdate) {
         GetUpdates request = new GetUpdates();
         request.setLimit(100);
-        request.setTimeout(ApiConstants.GETUPDATES_TIMEOUT);
+        request.setTimeout(1);
         request.setOffset(lastReceivedUpdate + 1);
         String url = ApiConstants.BASE_URL + getBotToken() + "/" + GetUpdates.PATH;
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("charset", StandardCharsets.UTF_8.name());
         httpPost.setConfig(requestConfig);
         try {
-            httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON));
+            httpPost.setEntity(
+                    new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON));
             try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
                 HttpEntity ht = response.getEntity();
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);

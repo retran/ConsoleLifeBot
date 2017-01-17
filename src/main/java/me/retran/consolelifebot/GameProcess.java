@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.quiz;
+package me.retran.consolelifebot;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,12 +11,6 @@ import javax.inject.Singleton;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-
-import me.retran.consolelifebot.Configuration;
-import me.retran.consolelifebot.TelegramService;
-import me.retran.consolelifebot.common.Utils;
-import me.retran.consolelifebot.giantbomb.GameEntry;
-import me.retran.consolelifebot.giantbomb.GiantBombService;
 
 @Singleton
 public class GameProcess extends Thread {

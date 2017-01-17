@@ -68,4 +68,8 @@ public class Configuration {
     public String chatName() {
         return "@consolelife";
     }
+
+    public String channelName() {
+        return "@consolenote";
+    }
 }

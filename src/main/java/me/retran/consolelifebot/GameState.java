@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.quiz;
+package me.retran.consolelifebot;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,10 +16,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import me.retran.consolelifebot.Configuration;
-import me.retran.consolelifebot.common.Utils;
-import me.retran.consolelifebot.giantbomb.GameEntry;
 
 @Singleton
 public class GameState {
@@ -107,19 +103,16 @@ public class GameState {
 
     public void addAnswer(String user, String answer) {
         int baseEstimate = Utils.distance(game.name().toLowerCase().replace(" ", ""),
-                                          answer.toLowerCase().replace(" ", ""));
+                answer.toLowerCase().replace(" ", ""));
         String[] words = game.name().split(" ");
         String[] answerWords = answer.split(" ");
+        int estimateModifier = 0;
         boolean flag = false;
         for (int j = 0; j < answerWords.length; j++) {
             for (int i = 0; i < words.length; i++) {
                 int est = Utils.distance(answerWords[j].toLowerCase(), words[i].toLowerCase());
-                System.out.println(words[i] + " " + answerWords[j]);
-                System.out.println(words[i].length() / 2);
-                System.out.println(est);
-
                 if (est <= words[i].length() / 2) {
-                    System.out.println("right");
+                    estimateModifier++;
                     flag = true;
                 }
             }
@@ -127,7 +120,7 @@ public class GameState {
         if (!flag) {
             baseEstimate = 10000;
         }
-        answers.add(new Answer(user, answer, baseEstimate));
+        answers.add(new Answer(user, answer, baseEstimate + estimateModifier));
     }
 
     public void clearAnswers() {

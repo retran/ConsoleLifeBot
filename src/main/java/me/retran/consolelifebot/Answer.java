@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.quiz;
+package me.retran.consolelifebot;
 
 import java.time.LocalDateTime;
 

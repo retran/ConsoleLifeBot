@@ -42,11 +42,12 @@ public class TelegramPublisher extends UntypedActor {
                         try {
                             return telegramService.sendMessage(sendMessage);
                         } catch (TelegramApiException e) {
+                            e.printStackTrace();
                             throw new RuntimeException(e);
                         }
                     }
                 }, getContext().dispatcher());
-                
+
                 ActorRef sender = getSender();
                 f.onComplete(new OnComplete<Message>() {
                     @Override
@@ -57,8 +58,9 @@ public class TelegramPublisher extends UntypedActor {
                         sender.tell(message, getSelf());
                     }
                 }, getContext().dispatcher());
+            } else {
+                unhandled(arg0);
             }
-            unhandled(arg0);
         }
 
         public static Props props(TelegramService telegramService) {
@@ -83,21 +85,21 @@ public class TelegramPublisher extends UntypedActor {
 
     @Override
     public void onReceive(Object arg0) throws Throwable {
-        if (arg0 instanceof String && ((String)arg0).compareTo("init") == 0) {
-            getSender().tell("ack", getSelf());            
+        if (arg0 instanceof String && ((String) arg0).compareTo("init") == 0) {
+            getSender().tell("ack", getSelf());
         } else if (arg0 instanceof SendMessage) {
             SendMessage sendMessage = (SendMessage) arg0;
             ActorRef channel = channels.get(sendMessage.getChatId());
             if (channel == null) {
                 ActorRef publisher = this.getContext().actorOf(ChannelPublisher.props(telegramService));
-                channel = this.getContext()
-                        .actorOf(Props.create(TimerBasedThrottler.class,
+                channel = this.getContext().actorOf(
+                        Props.create(TimerBasedThrottler.class,
                                 new Throttler.Rate(1, Duration.create(1, TimeUnit.SECONDS))),
-                                "channel:" + sendMessage.getChatId());
+                        "channel:" + sendMessage.getChatId());
                 channel.tell(new Throttler.SetTarget(publisher), null);
                 channels.put(sendMessage.getChatId(), channel);
-            }            
-            Future<Object> f = Patterns.ask(channel, sendMessage, 
+            }
+            Future<Object> f = Patterns.ask(channel, sendMessage,
                     new Timeout(new FiniteDuration(60, TimeUnit.SECONDS)));
             ActorRef sender = getSender();
             f.onComplete(new OnComplete<Object>() {
@@ -106,8 +108,9 @@ public class TelegramPublisher extends UntypedActor {
                     sender.tell("ack", getSelf());
                 }
             }, getContext().dispatcher());
+        } else {
+            unhandled(arg0);
         }
-        unhandled(arg0);
     }
 
     public static Props props(TelegramService telegramService) {

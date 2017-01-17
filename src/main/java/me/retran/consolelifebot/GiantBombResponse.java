@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.giantbomb;
+package me.retran.consolelifebot;
 
 public class GiantBombResponse<T> {
     private T results = null;

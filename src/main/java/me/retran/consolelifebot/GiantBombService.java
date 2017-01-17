@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.giantbomb;
+package me.retran.consolelifebot;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,6 @@ import com.google.inject.util.Types;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
-import me.retran.consolelifebot.Configuration;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

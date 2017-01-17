@@ -1,4 +1,4 @@
-package me.retran.consolelifebot.giantbomb;
+package me.retran.consolelifebot;
 
 import java.util.Arrays;
 import java.util.List;

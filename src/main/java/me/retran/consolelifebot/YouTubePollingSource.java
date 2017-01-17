@@ -1,7 +1,5 @@
 package me.retran.consolelifebot;
 
-import akka.stream.Outlet;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,18 +20,22 @@ import com.google.api.services.youtube.model.PlaylistItem;
 import com.google.api.services.youtube.model.PlaylistItemListResponse;
 
 import akka.stream.Attributes;
+import akka.stream.Outlet;
 import akka.stream.SourceShape;
-import akka.stream.stage.*;
+import akka.stream.stage.AbstractOutHandler;
+import akka.stream.stage.GraphStage;
+import akka.stream.stage.GraphStageLogic;
+import akka.stream.stage.TimerGraphStageLogic;
 import scala.concurrent.duration.FiniteDuration;
 
 public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> {
     private final Outlet<YouTubeEntry> out = Outlet.create("YouTubePollingSource.out");
     private final SourceShape<YouTubeEntry> shape = SourceShape.of(out);
-    
+
     private final FiniteDuration interval;
     private final String channels;
     private final YouTube youTube;
-    
+
     @Override
     public SourceShape<YouTubeEntry> shape() {
         return shape;
@@ -43,7 +45,7 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
         super();
         this.interval = interval;
         this.channels = channels;
-        
+
         HttpRequestInitializer initializer = request -> {
         };
         this.youTube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), initializer)
@@ -56,22 +58,22 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
         return new TimerGraphStageLogic(shape) {
             private Queue<YouTubeEntry> buffer = new ArrayDeque<>();
             private LocalDateTime lastPolledAt;
-            
+
             {
                 this.lastPolledAt = LocalDateTime.now();
                 setHandler(out, new AbstractOutHandler() {
-                   @Override
-                   public void onPull() {                       
-                       poll();
-                   }
+                    @Override
+                    public void onPull() {
+                        poll();
+                    }
                 });
             }
-            
+
             @Override
             public void onTimer(Object timerKey) {
                 poll();
             }
-            
+
             private void poll() {
                 if (buffer.isEmpty()) {
                     LocalDateTime startedPollingAt = LocalDateTime.now();
@@ -79,17 +81,15 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
                     lastPolledAt = startedPollingAt;
                 }
 
-                this.
-                
                 if (!buffer.isEmpty()) {
                     push(out, buffer.poll());
                 } else {
-                    scheduleOnce("poll", interval);                    
-                }                    
+                    scheduleOnce("poll", interval);
+                }
             }
         };
     }
-    
+
     private List<YouTubeEntry> fetchNewVideos(LocalDateTime after) {
         ArrayList<YouTubeEntry> results = new ArrayList<>();
         try {
