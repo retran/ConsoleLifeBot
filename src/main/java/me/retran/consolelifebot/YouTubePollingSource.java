@@ -79,8 +79,6 @@ public class YouTubePollingSource extends GraphStage<SourceShape<YouTubeEntry>> 
                     lastPolledAt = startedPollingAt;
                 }
 
-                this.
-                
                 if (!buffer.isEmpty()) {
                     push(out, buffer.poll());
                 } else {
