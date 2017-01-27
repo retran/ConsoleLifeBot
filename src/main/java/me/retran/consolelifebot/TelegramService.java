@@ -68,7 +68,7 @@ public class TelegramService extends DefaultAbsSender {
     public List<Update> getUpdates(int lastReceivedUpdate) {
         GetUpdates request = new GetUpdates();
         request.setLimit(100);
-        request.setTimeout(ApiConstants.GETUPDATES_TIMEOUT);
+        request.setTimeout(1);
         request.setOffset(lastReceivedUpdate + 1);
         String url = ApiConstants.BASE_URL + getBotToken() + "/" + GetUpdates.PATH;
         HttpPost httpPost = new HttpPost(url);
