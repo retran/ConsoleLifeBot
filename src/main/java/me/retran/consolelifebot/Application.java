@@ -33,10 +33,13 @@ public class Application {
                 .throttle(30, new FiniteDuration(1, TimeUnit.SECONDS), 30, ThrottleMode.shaping())
                 .to(Sink.actorRefWithAck(telegramPublisher, "init", "ack", "done", null)).run(materializer);
 
-        Source.fromGraph(
-                new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES), "https://hi-news.ru/games/feed", null))
-                .merge(Source.fromGraph(new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES),
-                        "http://gamemag.ru/rss/feed", null)))
+        //        Source.fromGraph(
+                         
+                         //                new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES), "https://hi-news.ru/games/feed", null))
+                         //                .merge(
+
+                       Source.fromGraph(new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES),
+                        "http://gamemag.ru/rss/feed", null))
                 .merge(Source.fromGraph(new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES),
                         "http://feeds.feedburner.com/devicebox?format=xml", "Игровые консоли")))
                 .map(i -> new SendMessage().setChatId("@consolenote")
