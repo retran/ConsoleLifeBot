@@ -66,6 +66,7 @@ public class TelegramService extends DefaultAbsSender {
     }
     
     public List<Update> getUpdates(int lastReceivedUpdate) {
+        System.out.println("Poll " + lastReceivedUpdate);
         GetUpdates request = new GetUpdates();
         request.setLimit(100);
         request.setTimeout(1);
@@ -81,13 +82,15 @@ public class TelegramService extends DefaultAbsSender {
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
                 String responseContent = EntityUtils.toString(buf, StandardCharsets.UTF_8);
                 List<Update> updates = request.deserializeResponse(responseContent);
+                System.out.println(updates.size());
                 updates.removeIf(x -> x.getUpdateId() < lastReceivedUpdate);
+                System.out.println(updates.size());
                 return updates;
             } catch (IOException | TelegramApiRequestException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        } catch (UnsupportedCharsetException | JsonProcessingException e1) {
+        } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }

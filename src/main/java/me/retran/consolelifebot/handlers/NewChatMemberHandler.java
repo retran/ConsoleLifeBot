@@ -36,6 +36,17 @@ public class NewChatMemberHandler extends Handler {
         try {
             sender.sendMessageAsync(sendMessage, callback);
         } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
+        
+        sendMessage = new SendMessage().setChatId(message.getChatId()).disableNotification()
+                .disableWebPagePreview().enableHtml(true).setReplyToMessageId(message.getMessageId())
+                .setText("Скриптонита слушаешь? Консоли есть? А если найдем?");
+        try {
+            sender.sendMessageAsync(sendMessage, callback);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
     }
 }

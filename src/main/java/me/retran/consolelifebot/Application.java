@@ -20,7 +20,7 @@ public class Application {
     public static void main(String[] args) {
         final Dependencies injector = DaggerDependencies.create();
         final Configuration configuration = injector.configuration();
-
+        
         final ActorSystem system = ActorSystem.create("consolelifebot");
         final Materializer materializer = ActorMaterializer.create(system);
 
@@ -40,8 +40,8 @@ public class Application {
 
                        Source.fromGraph(new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES),
                         "http://gamemag.ru/rss/feed", null))
-                .merge(Source.fromGraph(new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES),
-                        "http://feeds.feedburner.com/devicebox?format=xml", "Игровые консоли")))
+//                .merge(Source.fromGraph(new RssPollingSource(new FiniteDuration(15, TimeUnit.MINUTES),
+//                        "http://feeds.feedburner.com/devicebox?format=xml", "Игровые консоли")))
                 .map(i -> new SendMessage().setChatId("@consolenote")
                         .setText(String.format("<a href=\"%s\">%s</a>", i.getLink(), i.getTitle()))
                         .setParseMode("HTML"))
