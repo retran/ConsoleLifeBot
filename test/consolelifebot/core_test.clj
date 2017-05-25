@@ -1,7 +1,11 @@
 (ns consolelifebot.core-test
   (:require [clojure.test :refer :all]
-            [consolelifebot.core :refer :all]))
+            [consolelifebot.core :refer :all]
+            [consolelifebot.telegram :refer :all]
+            [consolelifebot.configuration :refer :all]
+            [consolelifebot.messages :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest sanity-check-test
+  (testing "sanity check"
+    (is true)))
+
