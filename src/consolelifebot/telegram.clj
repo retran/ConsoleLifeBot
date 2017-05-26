@@ -22,11 +22,11 @@
              {:headers {"Content-Type" "application/json"}
               :body (json/write-str body)}))
 
-(defn post-message [& {with-text :with-text at :at}]
+(defn post-message [& {with-text :with-text at :at disable-preview :disable-preview}]
   (post "/sendMessage" {:chat_id at
                         :text with-text
                         :parse_mode "HTML"
-                        :disable_web_page_preview true}))
+                        :disable_web_page_preview (or disable-preview false)}))
 
 (defn reply-with-message [& {with-text :with-text to :to at :at}]
   (post "/sendMessage" {:chat_id at
