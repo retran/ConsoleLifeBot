@@ -2,6 +2,7 @@
   (:require [consolelifebot.telegram :as telegram]
             [consolelifebot.messages :as messages]
             [consolelifebot.configuration :as configuration]
+            [consolelifebot.feed :as feed]
             [clojure.string :as s])
   (:gen-class))
 
@@ -29,5 +30,6 @@
 
 (defn -main
   [& args]
+  (feed/schedule-feeds)
   @(telegram/for-each-new-message dispatch))
 

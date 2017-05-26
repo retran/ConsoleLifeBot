@@ -10,3 +10,15 @@
 (def telegram-bot-name
   (:telegram-bot-name config))
 
+(def telegram-notes-channel
+  (:telegram-notes-channel config))
+
+(def feed-polling-interval
+  (:feed-polling-interval config))
+
+(def rss-channels
+  (:rss-channels config))
+
+(def youtube-channels
+  (:youtube-channels config))
+

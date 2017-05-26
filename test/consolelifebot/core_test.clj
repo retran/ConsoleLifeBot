@@ -3,6 +3,7 @@
             [consolelifebot.core :refer :all]
             [consolelifebot.telegram :refer :all]
             [consolelifebot.configuration :refer :all]
+            [consolelifebot.feed :refer :all]
             [consolelifebot.messages :refer :all]))
 
 (deftest sanity-check-test
