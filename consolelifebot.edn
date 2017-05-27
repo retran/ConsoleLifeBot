@@ -1,26 +1,22 @@
 {:telegram-bot-api-token #env TELEGRAM_BOT_API_TOKEN 
  :telegram-bot-name "slonikdendy_bot"
- :telegram-notes-channel "@consolelife"
+ :telegram-notes-channel "@consolenote"
  :feed-polling-interval 300000
  :youtube-channels ["https://www.youtube.com/feeds/videos.xml?channel_id=UC5dgoavpIertLkNDDITDoBQ"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCj1JJWwpsSIoBGsPZKQoNKQ"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UCyHFMnKuIMieXecu6-HwzGQ"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCK0cQvS1NASakpypCF4dywg"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCkwMTlzAyrisud_xYwcgHkg"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UCi0OCOBMYD9ItsgLlssjAGw"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UCqnWGqWpWLvnw9fowQ9Y3Uw"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCeemTTAKVjHucKYFmc8V3Ug"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UC_4VQKmbolIpr9qhwZoV6nQ"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCBAjZRn3fUDdMV-Mlq0RtLA"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UChC1Gcl-1bOkNPPzN_owcVg"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UCW1CX2Zl2ypQHCuyTkjTwMA"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UC2Au-VKpIQQx0eBvMZeTFbQ"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCh1sFaFEsHTBbpBf3msX-5g"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UC91HDcpMGsPCnK14l7sjyDQ"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UCOpsLCXuPCxRIAePX-lt22g"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCplZ_A5bbV4piVmG3816dIA"
                     "https://www.youtube.com/feeds/videos.xml?channel_id=UCkfUjgaPa-V0WE-6zLYUSuw"
-                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCTkzwcV5g8DndENYe__EeKw"]
+                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCTkzwcV5g8DndENYe__EeKw"
+                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCYqLVPF7SJxxat_7gErc8_g"
+                    "https://www.youtube.com/feeds/videos.xml?channel_id=UC08EXStbAO-5FY-eRsH8ACw"
+                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCyJTy47cZlIro5xU7Z7Rt0w"
+                    "https://www.youtube.com/feeds/videos.xml?channel_id=UCeemTTAKVjHucKYFmc8V3Ug"]
  :rss-channels ["http://gamemag.ru/rss/feed"
-                 "https://hi-news.ru/games/feed"]}
+                "https://hi-news.ru/games/feed"]}
 
