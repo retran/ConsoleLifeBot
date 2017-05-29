@@ -7,7 +7,9 @@
   (:gen-class))
 
 (defn dispatch [message]
-  (let [text (s/trim (:text message))]
+  (let [text (if (:text message)
+               (s/trim (:text message))
+               "")]
     (letfn [(pattern [command]
               (re-pattern (str "/" command "(@" configuration/telegram-bot-name ")?")))
             (matches [command]
@@ -18,7 +20,7 @@
                     :with-text response
                     :at (-> message :chat :id)))]
 
-      (when (:new_chat_member message)
+      (when (:new_chat_members message)
         (reply messages/welcome))
 
       (doseq [[command response]
