@@ -14,7 +14,13 @@
                             :timeout 60}
              :keep-alive 60000}
             (fn [{:keys [status headers body error]}]
-              (:result (json/read-str body :key-fn keyword)))))
+              (println status)
+              (if (not= status 200)
+                (do
+                  (log/error body)
+                  (Thread/sleep 500)
+                  [])
+                (:result (json/read-str body :key-fn keyword))))))
 
 (defn- post [method body]
   (log/info "[telegram] post " method " " body) 
