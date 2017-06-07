@@ -1,15 +1,18 @@
 (ns consolelifebot.core
-  (:require [consolelifebot.telegram :as telegram]
-            [consolelifebot.messages :as messages]
+  (:require [clojure.string :as s]
             [consolelifebot.configuration :as configuration]
             [consolelifebot.feed :as feed]
-            [clojure.string :as s])
+            [consolelifebot.messages :as messages]
+            [consolelifebot.telegram :as telegram]
+            [consolelifebot.tags :as tags]
+            [org.httpkit.timer :as timer])
   (:gen-class))
 
 (defn dispatch [message]
   (let [text (if (:text message)
                (s/trim (:text message))
-               "")]
+               "")
+        chat-id (-> message :chat :id)]
     (letfn [(pattern [command]
               (re-pattern (str "/" command "(@" configuration/telegram-bot-name ")?")))
             (matches [command]
@@ -18,11 +21,24 @@
                    (telegram/reply-with-message
                     :to (:message_id message)
                     :with-text response
-                    :at (-> message :chat :id)))]
+                    :at chat-id))]
 
       (when (:new_chat_members message)
         (reply messages/welcome))
 
+      (tags/save-from text)
+
+      (when (matches "tags")
+        (let [tags (tags/get-all)]
+          (when (seq tags)
+            (let [reply-message @(reply (s/join " " tags))]
+              (timer/schedule-task 60000 (do
+                                          (telegram/delete-message :with-id (:message_id reply-message)
+                                                                   :at chat-id)
+                                          (telegram/delete-message :with-id
+                                                                   (:message_id message)
+                                                                   :at chat-id)))))))
+      
       (doseq [[command response]
               [["about" messages/about]
                ["rules" messages/rules]
