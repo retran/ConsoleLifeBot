@@ -14,7 +14,6 @@
                             :timeout 60}
              :keep-alive 60000}
             (fn [{:keys [status headers body error]}]
-              (println status)
               (if (not= status 200)
                 (do
                   (log/error body)
@@ -26,7 +25,12 @@
   (log/info "[telegram] post " method " " body) 
   (http/post (str base-url method)
              {:headers {"Content-Type" "application/json"}
-              :body (json/write-str body)}))
+              :body (json/write-str body)}
+            (fn [{:keys [status headers body error]}]
+              (if (not= status 200)
+                (do
+                  (log/error body) nil)
+                (:result (json/read-str body :key-fn keyword))))))
 
 (defn post-message [& {with-text :with-text at :at disable-preview :disable-preview}]
   (post "/sendMessage" {:chat_id at
@@ -40,6 +44,10 @@
                         :text with-text
                         :parse_mode "HTML"
                         :disable_web_page_preview true}))
+
+(defn delete-message [& {with-id :with-id at :at}]
+  (post "/deleteMessage" {:chat_id at
+                          :message_id with-id}))
 
 (defn for-each-new-message [handle]
   (future
