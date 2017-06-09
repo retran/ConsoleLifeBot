@@ -49,6 +49,14 @@
   (post "/deleteMessage" {:chat_id at
                           :message_id with-id}))
 
+(defn kick-user [& {with-id :with-id at :at}]
+  (post "/kickChatMember" {:user_id with-id
+                           :chat_id at}))
+
+(defn unban-user [& {with-id :with-id at :at}]
+  (post "/unbanChatMember" {:user_id with-id
+                           :chat_id at}))
+
 (defn for-each-new-message [handle]
   (future
     (log/info "[telegram] start")

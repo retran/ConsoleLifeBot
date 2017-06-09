@@ -5,7 +5,8 @@
             [consolelifebot.messages :as messages]
             [consolelifebot.telegram :as telegram]
             [consolelifebot.tags :as tags]
-            [org.httpkit.timer :as timer])
+            [org.httpkit.timer :as timer]
+            [consolelifebot.users :as users])
   (:gen-class))
 
 (defn dispatch [message]
@@ -28,10 +29,33 @@
                                              (telegram/delete-message :with-id (:message_id reply-message)
                                                                       :at chat-id)
                                              (telegram/delete-message :with-id (:message_id message)
-                                                                      :at chat-id)))))]
+                                                                      :at chat-id)))))]      
       
-      (when (:new_chat_members message)
-        (reply messages/welcome))
+
+      
+      (let [user (:from message)]
+        (if (:new_chat_members message)
+          (do
+            (reply messages/welcome)
+            (when-not (users/exist? user)
+              (do
+                (users/register user)
+                (timer/schedule-task 180000
+                                     (when-not (users/is-activated user)
+                                       (do
+                                         (reply "Вас приветствует охранный робот. Пожалуйста, представьтесь или вы будете УНИЧТОЖЕНЫ!")
+                                         (timer/schedule-task 300000
+                                                              (when-not (users/is-activated user)
+                                                                (do
+                                                                  (reply "УНИЧТОЖИТЬ! УНИЧТОЖИТЬ! УНИЧТОЖИТЬ!")
+                                                                  @(telegram/kick-user :with-id (:id user)
+                                                                                       :at chat-id)
+                                                                  @(telegram/unban-user :with-id (:id user)
+                                                                                        :at chat-id))))))))))
+          (when-not (users/is-activated user)
+            (do
+              (users/activate user)
+              (reply "Посетитель авторизован. Приятного посещения.")))))
 
       (tags/save-from text)
 
@@ -51,4 +75,6 @@
   [& args]
   (feed/schedule-feeds)
   @(telegram/for-each-new-message dispatch))
+
+(users/get-all)
 
