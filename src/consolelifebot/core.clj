@@ -21,8 +21,15 @@
                    (telegram/reply-with-message
                     :to (:message_id message)
                     :with-text response
-                    :at chat-id))]
-
+                    :at chat-id))
+            (reply-and-remove [response]
+              (let [reply-message @(reply response)]
+                (timer/schedule-task 60000 (do
+                                             (telegram/delete-message :with-id (:message_id reply-message)
+                                                                      :at chat-id)
+                                             (telegram/delete-message :with-id (:message_id message)
+                                                                      :at chat-id)))))]
+      
       (when (:new_chat_members message)
         (reply messages/welcome))
 
@@ -31,20 +38,14 @@
       (when (matches "tags")
         (let [tags (tags/get-all)]
           (when (seq tags)
-            (let [reply-message @(reply (s/join " " tags))]
-              (timer/schedule-task 60000 (do
-                                          (telegram/delete-message :with-id (:message_id reply-message)
-                                                                   :at chat-id)
-                                          (telegram/delete-message :with-id
-                                                                   (:message_id message)
-                                                                   :at chat-id)))))))
-      
+            (reply-and-remove (s/join " " tags)))))
+                  
       (doseq [[command response]
               [["about" messages/about]
                ["rules" messages/rules]
                ["list" messages/console-list]]]
         (when (matches command)
-          (reply response))))))
+          (reply-and-remove response))))))
 
 (defn -main
   [& args]
